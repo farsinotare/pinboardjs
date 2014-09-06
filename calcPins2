@@ -1,0 +1,48 @@
+fs = require('fs')
+fs.readFileSync('./pins.json')
+fs.readFileSync('./pins.json').toString()
+JSON.parse(fs.readFileSync('./pins.json').toString())
+pins = JSON.parse(fs.readFileSync('./pins.json').toString())
+pins.length()
+pins.length
+pins.map(function(m) {
+return {x: i mod 2}
+})
+3 mod 4
+4 % 5
+4 % 1
+4 % 2
+2 % 4
+2 % 1
+2 % 3
+3 % 2
+4 % 2
+5 % 2
+i = 0; pins.map(function(m) {
+return { x: (i % 2 == 0) ? i * 20 : ( i - 1) * 20 }
+})
+i = 0; pins.map(function(m) {
+i++; return { x: (i % 2 == 0) ? i * 20 : ( i - 1) * 20 }
+})
+i = 1; pins.map(function(m) {
+i++; return { y: (i % 2 == 0) ? i * 20 : ( i - 1) * 20 }
+})
+i = 1; pins.map(function(m) {
+i++; return { y: (i % 2 == 0) ? i * 20 : ( i - 1) * 20, name: pins[i-1] }
+})
+i++; return { y: (i % 2 == 0) ? i * 20 : ( i - 1) * 20, name: pins[i-1].name }
+i = 1; pins.map(function(m) {
+i++; return { y: (i % 2 == 0) ? i * 20 : ( i - 1) * 20, x: (i % 2 == 1) ? i * 30 : (i+1) * 30, name: pins[i-1].name }
+})
+i = 1; pins.map(function(m) {
+i++; return { y: (i % 2 == 0) ? i * 20 : ( i - 1) * 20, x: (i % 2 == 1) ? i * 30 : (i+1) * 30, name: pins[i-1].name }
+})
+i = 1; pins.map(function(m) {
+i++; return { y: (i % 2 == 0) ? i * 20 : ( i - 1) * 20, x: (i % 2 == 1) ? i * 30 : (i+1) * 30 }
+})
+i = 1; pins.map(function(m) {
+i++; return { y: (i % 2 == 0) ? i * 20 : ( i - 1) * 20, x: (i % 2 == 0) ? i * 30 : (i+1) * 30 }
+})
+i = 1; pins.map(function(m) {
+i++; return { y: (i % 2 == 0) ? i * 20 : ( i - 1) * 20, x: (i % 2 == 0) ? 30 : 120 }
+})

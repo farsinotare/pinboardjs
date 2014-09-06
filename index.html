@@ -18,7 +18,30 @@
 <body>
   <svg id="main" width="1500" height="1000">
   </svg>
-  <script src="bundle.js"></script>
+
+  <script src="static/s.js">
+  </script>
+
+  <script src="static/pins.js">
+  </script>
+
+  <script src="static/calcPins.js">
+  </script>
+
+  <script src="static/drawPins.js">
+  </script>
+
+  <script src="static/drawBoard.js">
+  </script>
+
+  <script>
+    var s = require('svg');
+    var rawPins = require('pins');
+    var calcPins = require('calcPins');
+    var drawPins = require('drawPins');
+    var drawBoard = require('drawBoard');
+  </script>
+
 </body>
 
 </html>
