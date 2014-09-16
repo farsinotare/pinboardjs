@@ -1,8 +1,14 @@
 
+function to draw board
+
+  - draw north, east, south, west
+  - allow variable width and offset
+
 
 function to draw pins
 
-function to draw board
+   - calc placement of pins
+
 
 function to draw single pin
 

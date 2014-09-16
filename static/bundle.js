@@ -30,19 +30,75 @@ function lookupName() {
   return rawPins.length - i + 2 
 }
 
-function calcPins(spacingX, spacingY, rawPins) {
-  i = 1;
+
+var PinsLayout = function(spacingX, spacingY, rawPins) {
+  this.spacingX = spacingX;
+  this.spacingY = spacingY;
+  this.rawPins = rawPins;
+  this.coords = [];
+};
+
+PinsLayout.prototype._resolveCoords = function(rawPins, spacingX, spacingY) {
+  var length = rawPins.length;
+  var i = 1;
+
   var coords = rawPins.map(function(pin) {
     i++;
     return {
       y: (i % 2 == 0) ? i * spacingY : ( i - 1) * spacingY,
       x: (i % 2 == 0) ? spacingX : 2 * spacingX,
-      name: rawPins[rawPins.length - i +1].name
+      name: rawPins[length - i +1].name
     }
   })
-  return coords;
+
 }
-module.exports = calcPins;
+
+PinsLayout.prototype.calcEast = function() {
+  var rawPins = this.rawPins.east;
+
+  var spacingX = this.spacingX;
+  var spacingY = this.spacingY;
+
+  return this._resolveCoords(rawPins, spacingX, spacingY);
+}
+
+PinsLayout.prototype.calcNorth = function() {
+  var rawPins = this.rawPins.east;
+
+  var spacingX = this.spacingX;
+  var spacingY = this.spacingY;
+
+  return this._resolveCoords(rawPins, spacingX, spacingY);
+}
+
+PinsLayout.prototype.calcSouth = function() {
+  var rawPins = this.rawPins.east;
+
+  var spacingX = this.spacingX;
+  var spacingY = this.spacingY;
+
+  return this._resolveCoords(rawPins, spacingX, spacingY);
+}
+
+PinsLayout.prototype.calcWest = function() {
+  var rawPins = this.rawPins.east;
+
+  var spacingX = this.spacingX;
+  var spacingY = this.spacingY;
+
+  return this._resolveCoords(rawPins, spacingX, spacingY);
+}
+
+
+PinsLayout.prototype.calcPins = function() {
+  this.calcEast();
+  this.calcSouth();
+  this.calcNorth();
+  this.calcWest();
+}
+
+
+module.exports = PinsLayout;
 
 },{}],3:[function(require,module,exports){
 // Snap.svg 0.2.0
@@ -7382,26 +7438,35 @@ return Snap;
 })(this);
 
 },{}],5:[function(require,module,exports){
-module.exports=[ {"pin": 1, "name": "GND", "notes": "Ground"},
-{"pin": 2 , "name":  " VIN", "notes": " This is the input to the onboard 3.3 V regulator, and typically comes either from USB or an external battery. As such, its voltage can range from ~3.4 V to 15 V. Please read the Powering Tessel documentation before using this pin. It is not recommended as source of significant current and should not be used to power the board."},
-{"pin": 3  , "name": "3V3", "notes": " 3.3 V power rail. The onboard regulator is rated to 3 A."},
-{"pin": 4  , "name": "A6", "notes": "  ADC6. 10-bit ADC, referenced to GND and 3.3 V. Cannot function as anything else."},
-{"pin": 5  , "name": "SCL", "notes": "  I2C clock line. Common for the entire board."},
-{"pin": 6  , "name": "A5", "notes": "  ADC5. 10-bit ADC, referenced to GND and 3.3 V. Cannot function as anything else."},
-{"pin": 7  , "name": "SDA", "notes": "  I2C data line. Common for the entire board."},
-{"pin": 8  , "name": "A4", "notes": "  ADC5. 10-bit ADC, referenced to GND and 3.3 V. Reconfigurable as digital GPIO."},
-{"pin": 9  , "name": "SCK", "notes": "  SPI clock line. Common for the entire board."},
-{"pin": 10 , "name": "A3", "notes": "  ADC4. 10-bit ADC, referenced to GND and 3.3 V."},
-{"pin": 11 , "name": "MISO", "notes": "  SPI master in/slave out. Common for the entire board."},
-{"pin": 12 , "name": "A2", "notes": "  ADC3. 10-bit ADC, referenced to GND and 3.3 V. Reconfigurable as digital GPIO."},
-{"pin": 13 , "name": "MOSI", "notes": "  SPI master out/slave in. Common for the entire board."},
-{"pin": 14 , "name": "A1", "notes": "  ADC2. 10-bit ADC, referenced to GND and 3.3 V. Reconfigurable as 10-bit DAC."},
-{"pin": 15 , "name": "G1", "notes": "  GPIO1. User-configurable general purpose input/output. Planned as software UART TX."},
-{"pin": 16 , "name": "G6", "notes": "  GPIO6. User-configurable general purpose input/output."},
-{"pin": 17 , "name": "G2", "notes": "  GPIO2. User-configurable general purpose input/output. Planned as software UART RX."},
-{"pin": 18 , "name": "G5", "notes": "  GPIO5. User-configurable general purpose input/output."},
-{"pin": 19 , "name": "G3", "notes": "  GPIO3. User-configurable general purpose input/output."},
-{"pin": 20 , "name": "G4", "notes": "  GPIO4. User-configurable general purpose input/output."}
-]
+module.exports={  "east": [], "west": [], "north": [ {"name": "AREF" }, {"name": "GND"}, {"name": "13"}, {"name": "12"},
+{"name": "11"},
+{"name": "10"},
+{"name": "9"},
+{"name": "8"},
+{"name": ""},
+{"name": "7"},
+{"name": "6"},
+{"name": "5"},
+{"name": "4"},
+{"name": "3"},
+{"name": "2"},
+{"name": "1"},
+{"name": "0"}
+],
+"south": [
+{"name": "RESET"},
+{"name": "3V3"},
+{"name": "5V"},
+{"name": "GND"},
+{"name": "GND"},
+{"name": "VIN"},
+{"name": ""},
+{"name": "A0"},
+{"name": "A1"},
+{"name": "A2"},
+{"name": "A3"},
+{"name": "A4"},
+{"name": "A5"}]
+}
 
 },{}]},{},[1])

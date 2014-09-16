@@ -1,5 +1,5 @@
 
-var calcPins = require('./calcPins.js');
+var PinsLayout = require('./calcPins.js');
 var rawPins = require('./pins.json');
 
 var pinHeight = 20;
@@ -8,8 +8,8 @@ var pinWidth = 20;
 var spacingX = 30;
 var spacingY = 30;
 
-
-var pins = calcPins(spacingX, spacingY, rawPins);
+var pinsLayout = new PinsLayout(spacingX, spacingY, rawPins);
+var pins = pinsLayout.calcEast();
 
 var placePins = function(offsetX, offsetY, s) {
   pins.forEach(function(pin) {
