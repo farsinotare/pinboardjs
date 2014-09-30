@@ -12,3 +12,18 @@ function to draw pins
 
 function to draw single pin
 
+
+placement of pins
+
+   - resolve vertical pins
+   - resolve horizontal pins
+
+a board is divided in 4 regions: "north", "east", "south", "west". Within each region the placement is done with a placement resolver, either horizontally or vertically.
+
+The problem right now is the order, as you saw. I probably need to add a position index, since the order of an array feels not strong enough, and the placement resolver can either work from left-to-right, or right-to-left.
+
+ - colors for pins
+
+ - placement of atmega processor
+
+

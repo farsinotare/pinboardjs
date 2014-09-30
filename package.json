@@ -4,7 +4,8 @@
   "description": "",
   "main": "bundle.js",
   "dependencies": {
-    "snapsvg": "git://github.com/sethvincent/Snap.svg#a34b8af69b"
+    "snapsvg": "git://github.com/sethvincent/Snap.svg#a34b8af69b",
+    "underscore": "^1.7.0"
   },
   "devDependencies": {},
   "scripts": {

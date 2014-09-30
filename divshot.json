@@ -1,6 +1,6 @@
 {
-  "name": "schematics",
-  "root": "./",
+  "name": "arduino-uno-schematics",
+  "root": "./static",
   "clean_urls": true,
   "error_page": "error.html"
 }
