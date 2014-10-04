@@ -19,26 +19,46 @@
   <svg id="main" width="1500" height="1000">
   </svg>
 
-  <script src="static/s.js">
+  <script>
+  var pinData = { "skin": {
+    "board": { "background": "cccccc" }
+   }, 
+  "board": {
+    "offset": { "x": 20, "y": 5 },
+    "north": {"height": 60 },
+    "middle": {"height": 220, "outer_width": 90, "inner_width": 660 }
+  },
+  "west": [{"name": "USB", "type": "big"}, {"name": "power"}], "east": [{"name": "ISCP", "type":"big"}], 
+   "north": [{"name": "AREF", "type": "small" }, {"name": "GND"}, 
+ {"name": "D13"}, {"name": "D12"}, {"name": "D11"}, {"name": "D10"},
+ {"name": "D9"}, {"name": "D8"}, {"name": ""}, {"name": "D7"},
+ {"name": "D6"}, {"name": "D5"}, {"name": "D4"}, {"name": "D3"}, {"name": "D2"},
+ {"name": "D1"}, {"name": "D0"} ],
+"south": [
+{"name": "RESET"}, {"name": "3V3"}, {"name": "5V"}, {"name": "GND"}, {"name": "GND"},
+{"name": "VIN"}, {"name": ""}, {"name": "A0"}, {"name": "A1"}, {"name": "A2"},
+{"name": "A3"}, {"name": "A4"}, {"name": "A5"} ]
+}
   </script>
 
-  <script src="static/drawPins.js">
-  </script>
+  <script src="static/s.js"></script>
+  <script src="static/board.js"></script>
+  <script src="static/pins.js"></script>
 
-  <script src="static/drawBoard.js">
-  </script>
 
   <script>
     var s = require('svg');
-    var drawBoard = require('drawBoard');
-
-    var board = {xOffset: 30, yOffset: 10};
-    drawBoard(s, board);
+    
+    var Board = require('board');
+    var board = new Board();
+    board.initialize(s, pinData.board);
+    board.draw();
   
-    var pins = {xOffset: 0, yOffset: 0, height: 280}; 
-    var placePins = require('drawPins');
-
-    placePins(s, pins);
+    var Pins = require('pins');
+    var pins = new Pins(); 
+console.log(pinData);
+    pins.initialize(s, {rawPins: pinData});
+    pins.place();
   </script>
 
 </body>

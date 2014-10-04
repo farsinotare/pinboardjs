@@ -1,30 +1,42 @@
 var _ = require('underscore');
 
-var xOffset = 20;
-var yOffset = 5;
-
 var northHeight = 60;
 var verticalHeight = 220; 
 var verticalWidth = 90;
+
 var outerWidth = 660 + verticalWidth; 
 
-function drawBoard(s, opts) {
+Board = function() {};
 
-  var xOffset = opts.xOffset;
-  var yOffset = opts.yOffset;
+Board.prototype.initialize = function(s, options) {
+  this.svg = s;
 
-  var north = s.rect(xOffset, yOffset, outerWidth, northHeight);
+  this.xOffset = options.offset.x;
+  this.yOffset = options.offset.y;
+
+  this.northHeight = options.north.height;
+  this.verticalHeight = options.middle.height;
+  this.verticalWidth = options.middle.outer_width;
+  this.outerWidth = options.middle.inner_width + this.verticalWidth;
+}
+
+Board.prototype.draw = function() {
+
+  var xOffset = this.xOffset;
+  var yOffset = this.yOffset;
+
+  var north = this.svg.rect(xOffset, yOffset, this.outerWidth, this.northHeight);
   north.attr({fill: '#cccccc', stroke: "#000"});
 
-  var west = s.rect(xOffset, 60 + yOffset, verticalWidth, verticalHeight);
+  var west = this.svg.rect(xOffset, 60 + yOffset, this.verticalWidth, this.verticalHeight);
   west.attr({fill: '#cccccc', stroke: "#000"});
   
-  var east = s.rect(outerWidth + xOffset - verticalWidth, northHeight + yOffset, verticalWidth, verticalHeight);
+  var east = this.svg.rect(this.outerWidth + xOffset - this.verticalWidth, this.northHeight + this.yOffset, this.verticalWidth, this.verticalHeight);
   east.attr({fill: '#cccccc', stroke: "#000"});
   
-  var south = s.rect(xOffset, 280 + yOffset, outerWidth, northHeight);
+  var south = this.svg.rect(xOffset, 280 + yOffset, this.outerWidth, this.northHeight);
   south.attr({fill: '#cccccc', stroke: "#000"});
 }
 
-module.exports = drawBoard;
+module.exports = Board;
 

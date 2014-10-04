@@ -8911,40 +8911,26 @@ return Snap;
 }.call(this));
 
 },{}],6:[function(require,module,exports){
-module.exports={ "west": [{"name": "USB", "type": "big"}, {"name": "power"}], "east": [{"name": "ISCP", "type":"big"}], 
-   "north": [ 
- {"name": "AREF", "type": "small" }, 
- {"name": "GND"}, 
- {"name": "D13"}, 
- {"name": "D12"},
- {"name": "D11"},
- {"name": "D10"},
- {"name": "D9"},
- {"name": "D8"},
- {"name": ""},
- {"name": "D7"},
- {"name": "D6"},
- {"name": "D5"},
- {"name": "D4"},
- {"name": "D3"},
- {"name": "D2"},
- {"name": "D1"},
- {"name": "D0"}
-],
+module.exports={ "skin": {
+    "board": { "background": "cccccc" }
+   },
+
+  "board": {
+    "offset": { "x": 20, "y": 5 },
+    "north": {"height": 60 },
+    "middle": {"height": 220, "outer_width": 90, "inner_width": 660 }
+  },
+
+  "west": [{"name": "USB", "type": "big"}, {"name": "power"}], "east": [{"name": "ISCP", "type":"big"}], 
+   "north": [{"name": "AREF", "type": "small" }, {"name": "GND"}, 
+ {"name": "D13"}, {"name": "D12"}, {"name": "D11"}, {"name": "D10"},
+ {"name": "D9"}, {"name": "D8"}, {"name": ""}, {"name": "D7"},
+ {"name": "D6"}, {"name": "D5"}, {"name": "D4"}, {"name": "D3"}, {"name": "D2"},
+ {"name": "D1"}, {"name": "D0"} ],
 "south": [
-{"name": "RESET"},
-{"name": "3V3"},
-{"name": "5V"},
-{"name": "GND"},
-{"name": "GND"},
-{"name": "VIN"},
-{"name": ""},
-{"name": "A0"},
-{"name": "A1"},
-{"name": "A2"},
-{"name": "A3"},
-{"name": "A4"},
-{"name": "A5"}]
+{"name": "RESET"}, {"name": "3V3"}, {"name": "5V"}, {"name": "GND"}, {"name": "GND"},
+{"name": "VIN"}, {"name": ""}, {"name": "A0"}, {"name": "A1"}, {"name": "A2"},
+{"name": "A3"}, {"name": "A4"}, {"name": "A5"} ]
 }
 
 },{}]},{},[1])

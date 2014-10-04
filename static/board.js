@@ -1,180 +1,50 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"tG3gHH":[function(require,module,exports){
 var _ = require('underscore');
 
-function lookupName() {
-  return rawPins.length - i + 2 
-}
+var northHeight = 60;
+var verticalHeight = 220; 
+var verticalWidth = 90;
 
-function _translate(coords, x, y) {
+var outerWidth = 660 + verticalWidth; 
 
-  return coords.map(function(coord) {
-    coord.x += x;
-    coord.y += y;
-    return coord;
-  });
+Board = function() {};
 
-}
-
-var PinsLayout = function(spacingX, spacingY, height, rawPins) {
-  this.spacingX = spacingX;
-  this.spacingY = spacingY;
-  this.rawPins = rawPins;
-  this.height = height;
-  this.coords = [];
-};
-
-PinsLayout.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
-  var length = rawPins.length;
-  var yOffset = 50;
-
-  var i = 1;
-  var that = this;
-  var coords = rawPins.map(function(pin) {
-    i++;
-    pin.y = yOffset + spacingY * i; 
-    pin.x = spacingX;
-    return pin;
-  })
-  return coords;
-}
-
-PinsLayout.prototype.calcEast = function() {
-  var rawPins = this.rawPins.east;
-
-  var spacingX = this.spacingX;
-  var spacingY = this.spacingY;
-
-  this.coords.push(this._resolveVertical(rawPins, spacingX, spacingY));
-}
-
-PinsLayout.prototype._placePin = function(pin, rawPins, i) {
-    var length = rawPins.length;
-    var name = rawPins[length - i +1].name; // count backward
-    if (name != "") {
-      return {
-        x: i * this.spacingX,
-        y: this.spacingY,
-        name: name 
-      }
-    }
-}
-
-PinsLayout.prototype.calcNorth = function() {
-  var rawPins = this.rawPins.north;
-
-  var spacingX = this.spacingX;
-  var spacingY = this.spacingY;
-
-  var i = 1;
-  var that = this;
-  var coords = rawPins.map(function(pin) {
-    i++;
-    return that._placePin(pin, rawPins, i);
-  });
-  coords = _.chain(coords).flatten().compact().value();
-
-  this.coords.push(coords);
-}
-
-PinsLayout.prototype.calcSouth = function() {
-  var rawPins = this.rawPins.south;
-
-  var spacingX = this.spacingX;
-  var spacingY = this.spacingY;
-
-  var i = 1;
-  var that = this;
-  var coords = rawPins.map(function(pin) {
-    i++;
-    return that._placePin(pin, rawPins, i);
-  });
-  coords = _.chain(coords).flatten().compact().value();
-
-  coords = _translate(coords, 0, this.height);
-  this.coords.push(coords);
-}
-
-PinsLayout.prototype.calcEast = function() {
-  var rawPins = this.rawPins.east;
-
-  var spacingX = this.spacingX;
-  var spacingY = this.spacingY;
-
-  var coords = this._resolveVertical(rawPins, spacingX, spacingY);
-
-  coords = _.chain(coords).flatten().compact().value();
-
-  coords = _translate(coords, 670, 0);
-  this.coords.push(coords);
-}
-
-PinsLayout.prototype.calcWest = function() {
-  var rawPins = this.rawPins.west;
-
-  var spacingX = this.spacingX;
-  var spacingY = this.spacingY;
-
-  var coords = this._resolveVertical(rawPins, spacingX, spacingY);
-  this.coords.push(coords);
-}
-
-
-PinsLayout.prototype.calcCoord = function() {
-  this.calcEast();
-  this.calcSouth();
-  this.calcNorth();
-  this.calcWest();
-  this.coords = _.chain(this.coords).flatten().compact().value();
-}
-
-
-module.exports = PinsLayout;
-
-},{"underscore":4}],"pins":[function(require,module,exports){
-module.exports=require('WdqFQt');
-},{}],"WdqFQt":[function(require,module,exports){
-var _ = require('underscore');
-var PinsLayout = require('./calcPins.js');
-
-var pinHeight = 20;
-var pinWidth = 20;
-
-var spacingX = 40;
-var spacingY = 40;
-
-Pins = function() {};
-
-Pins.prototype.initialize = function(s, options) {
+Board.prototype.initialize = function(s, options) {
   this.svg = s;
-  this.rawPins = options.rawPins;
 
-  this.xOffset = options.rawPins.board.offset.x;
-  this.yOffset = options.rawPins.board.offset.y;
-  this.height = options.rawPins.board.middle.height;
+  this.xOffset = options.offset.x;
+  this.yOffset = options.offset.y;
 
+  this.northHeight = options.north.height;
+  this.verticalHeight = options.middle.height;
+  this.verticalWidth = options.middle.outer_width;
+  this.outerWidth = options.middle.inner_width + this.verticalWidth;
 }
 
-Pins.prototype.place = function() {
-  var offsetX = this.xOffset;
-  var offsetY = this.yOffset; 
-  var height = this.height;
+Board.prototype.draw = function() {
 
-  var pinsLayout = new PinsLayout(spacingX, spacingY, height, this.rawPins);
-  pinsLayout.calcCoord();
+  var xOffset = this.xOffset;
+  var yOffset = this.yOffset;
+
+  var north = this.svg.rect(xOffset, yOffset, this.outerWidth, this.northHeight);
+  north.attr({fill: '#cccccc', stroke: "#000"});
+
+  var west = this.svg.rect(xOffset, 60 + yOffset, this.verticalWidth, this.verticalHeight);
+  west.attr({fill: '#cccccc', stroke: "#000"});
   
-  var pins = pinsLayout.coords; 
-
-  var that = this;
-  pins.forEach(function(pin) {
-    r = that.svg.rect(offsetX + pin.x, offsetY + pin.y, pinWidth, pinHeight);
-    r.attr({fill: 'white', stroke: "#000"});
-   
-    s.text(offsetX + pin.x, offsetY + pin.y, pin.name);
-  });
+  var east = this.svg.rect(this.outerWidth + xOffset - this.verticalWidth, this.northHeight + this.yOffset, this.verticalWidth, this.verticalHeight);
+  east.attr({fill: '#cccccc', stroke: "#000"});
+  
+  var south = this.svg.rect(xOffset, 280 + yOffset, this.outerWidth, this.northHeight);
+  south.attr({fill: '#cccccc', stroke: "#000"});
 }
-module.exports = Pins;
 
-},{"./calcPins.js":1,"underscore":4}],4:[function(require,module,exports){
+module.exports = Board;
+
+
+},{"underscore":3}],"board":[function(require,module,exports){
+module.exports=require('tG3gHH');
+},{}],3:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
