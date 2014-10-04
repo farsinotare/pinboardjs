@@ -1,4 +1,13 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"xeGc6q":[function(require,module,exports){
+
+var Snap  = require('snapsvg');
+var s = new Snap('#main');
+
+module.exports = s;
+
+},{"snapsvg":3}],"svg":[function(require,module,exports){
+module.exports=require('xeGc6q');
+},{}],3:[function(require,module,exports){
 // Snap.svg 0.2.0
 // 
 // Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
@@ -6930,7 +6939,7 @@ Snap.plugin(function (Snap, Element, Paper, glob) {
 });
 return Snap;
 }));
-},{"eve":2}],2:[function(require,module,exports){
+},{"eve":4}],4:[function(require,module,exports){
 // Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -7335,13 +7344,4 @@ return Snap;
     (typeof module != "undefined" && module.exports) ? (module.exports = eve) : (typeof define === "function" && define.amd ? (define("eve", [], function() { return eve; })) : (glob.eve = eve));
 })(this);
 
-},{}],"svg":[function(require,module,exports){
-module.exports=require('UXvG8s');
-},{}],"UXvG8s":[function(require,module,exports){
-
-var Snap  = require('snapsvg');
-var s = new Snap('#main');
-
-module.exports = s;
-
-},{"snapsvg":1}]},{},[])
+},{}]},{},[])

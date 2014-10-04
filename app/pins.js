@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var PinsLayout = require('./calcPins.js');
+var Layouter = require('./layouter.js');
 
 var pinHeight = 20;
 var pinWidth = 20;
@@ -13,9 +13,9 @@ Pins.prototype.initialize = function(s, options) {
   this.svg = s;
   this.rawPins = options.rawPins;
 
-  this.xOffset = options.rawPins.board.offset.x;
-  this.yOffset = options.rawPins.board.offset.y;
-  this.height = options.rawPins.board.middle.height;
+  this.xOffset = options.rawPins.skin.pins.offset.x;
+  this.yOffset = options.rawPins.skin.pins.offset.y;
+  this.height = options.rawPins.skin.pins.height;
 
 }
 
@@ -24,7 +24,7 @@ Pins.prototype.place = function() {
   var offsetY = this.yOffset; 
   var height = this.height;
 
-  var pinsLayout = new PinsLayout(spacingX, spacingY, height, this.rawPins);
+  var pinsLayout = new Layouter(spacingX, spacingY, height, this.rawPins);
   pinsLayout.calcCoord();
   
   var pins = pinsLayout.coords; 

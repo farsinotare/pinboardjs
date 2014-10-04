@@ -15,7 +15,7 @@ function _translate(coords, x, y) {
 
 }
 
-var PinsLayout = function(spacingX, spacingY, height, rawPins) {
+var Layouter = function(spacingX, spacingY, height, rawPins) {
   this.spacingX = spacingX;
   this.spacingY = spacingY;
   this.rawPins = rawPins;
@@ -23,7 +23,7 @@ var PinsLayout = function(spacingX, spacingY, height, rawPins) {
   this.coords = [];
 };
 
-PinsLayout.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
+Layouter.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
   var length = rawPins.length;
   var yOffset = 50;
 
@@ -38,7 +38,7 @@ PinsLayout.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
   return coords;
 }
 
-PinsLayout.prototype.calcEast = function() {
+Layouter.prototype.calcEast = function() {
   var rawPins = this.rawPins.east;
 
   var spacingX = this.spacingX;
@@ -47,7 +47,7 @@ PinsLayout.prototype.calcEast = function() {
   this.coords.push(this._resolveVertical(rawPins, spacingX, spacingY));
 }
 
-PinsLayout.prototype._placePin = function(pin, rawPins, i) {
+Layouter.prototype._placePin = function(pin, rawPins, i) {
     var length = rawPins.length;
     var name = rawPins[length - i +1].name; // count backward
     if (name != "") {
@@ -59,7 +59,7 @@ PinsLayout.prototype._placePin = function(pin, rawPins, i) {
     }
 }
 
-PinsLayout.prototype.calcNorth = function() {
+Layouter.prototype.calcNorth = function() {
   var rawPins = this.rawPins.north;
 
   var spacingX = this.spacingX;
@@ -76,7 +76,7 @@ PinsLayout.prototype.calcNorth = function() {
   this.coords.push(coords);
 }
 
-PinsLayout.prototype.calcSouth = function() {
+Layouter.prototype.calcSouth = function() {
   var rawPins = this.rawPins.south;
 
   var spacingX = this.spacingX;
@@ -94,7 +94,7 @@ PinsLayout.prototype.calcSouth = function() {
   this.coords.push(coords);
 }
 
-PinsLayout.prototype.calcEast = function() {
+Layouter.prototype.calcEast = function() {
   var rawPins = this.rawPins.east;
 
   var spacingX = this.spacingX;
@@ -108,7 +108,7 @@ PinsLayout.prototype.calcEast = function() {
   this.coords.push(coords);
 }
 
-PinsLayout.prototype.calcWest = function() {
+Layouter.prototype.calcWest = function() {
   var rawPins = this.rawPins.west;
 
   var spacingX = this.spacingX;
@@ -119,7 +119,7 @@ PinsLayout.prototype.calcWest = function() {
 }
 
 
-PinsLayout.prototype.calcCoord = function() {
+Layouter.prototype.calcCoord = function() {
   this.calcEast();
   this.calcSouth();
   this.calcNorth();
@@ -128,13 +128,13 @@ PinsLayout.prototype.calcCoord = function() {
 }
 
 
-module.exports = PinsLayout;
+module.exports = Layouter;
 
 },{"underscore":4}],"pins":[function(require,module,exports){
-module.exports=require('WdqFQt');
-},{}],"WdqFQt":[function(require,module,exports){
+module.exports=require('dQlQ7Q');
+},{}],"dQlQ7Q":[function(require,module,exports){
 var _ = require('underscore');
-var PinsLayout = require('./calcPins.js');
+var Layouter = require('./layouter.js');
 
 var pinHeight = 20;
 var pinWidth = 20;
@@ -148,9 +148,9 @@ Pins.prototype.initialize = function(s, options) {
   this.svg = s;
   this.rawPins = options.rawPins;
 
-  this.xOffset = options.rawPins.board.offset.x;
-  this.yOffset = options.rawPins.board.offset.y;
-  this.height = options.rawPins.board.middle.height;
+  this.xOffset = options.rawPins.skin.pins.offset.x;
+  this.yOffset = options.rawPins.skin.pins.offset.y;
+  this.height = options.rawPins.skin.pins.height;
 
 }
 
@@ -159,7 +159,7 @@ Pins.prototype.place = function() {
   var offsetY = this.yOffset; 
   var height = this.height;
 
-  var pinsLayout = new PinsLayout(spacingX, spacingY, height, this.rawPins);
+  var pinsLayout = new Layouter(spacingX, spacingY, height, this.rawPins);
   pinsLayout.calcCoord();
   
   var pins = pinsLayout.coords; 
@@ -174,7 +174,7 @@ Pins.prototype.place = function() {
 }
 module.exports = Pins;
 
-},{"./calcPins.js":1,"underscore":4}],4:[function(require,module,exports){
+},{"./layouter.js":1,"underscore":4}],4:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

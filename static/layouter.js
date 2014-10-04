@@ -1,51 +1,137 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"t2jbNN":[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"faHS6N":[function(require,module,exports){
 var _ = require('underscore');
 
-var northHeight = 60;
-var verticalHeight = 220; 
-var verticalWidth = 90;
-
-var outerWidth = 660 + verticalWidth; 
-
-Board = function() {};
-
-Board.prototype.initialize = function(s, options) {
-  this.svg = s;
-
-  var skin_board = options.skin.board; 
-
-  this.xOffset = skin_board.offset.x;
-  this.yOffset = skin_board.offset.y;
-
-  this.northHeight = skin_board.north.height;
-  this.verticalHeight = skin_board.middle.height;
-  this.verticalWidth = skin_board.middle.outer_width;
-  this.outerWidth = skin_board.middle.inner_width + this.verticalWidth;
+function lookupName() {
+  return rawPins.length - i + 2 
 }
 
-Board.prototype.draw = function() {
+function _translate(coords, x, y) {
 
-  var xOffset = this.xOffset;
-  var yOffset = this.yOffset;
+  return coords.map(function(coord) {
+    coord.x += x;
+    coord.y += y;
+    return coord;
+  });
 
-  var north = this.svg.rect(xOffset, yOffset, this.outerWidth, this.northHeight);
-  north.attr({fill: '#cccccc', stroke: "#000"});
-
-  var west = this.svg.rect(xOffset, 60 + yOffset, this.verticalWidth, this.verticalHeight);
-  west.attr({fill: '#cccccc', stroke: "#000"});
-  
-  var east = this.svg.rect(this.outerWidth + xOffset - this.verticalWidth, this.northHeight + this.yOffset, this.verticalWidth, this.verticalHeight);
-  east.attr({fill: '#cccccc', stroke: "#000"});
-  
-  var south = this.svg.rect(xOffset, 280 + yOffset, this.outerWidth, this.northHeight);
-  south.attr({fill: '#cccccc', stroke: "#000"});
 }
 
-module.exports = Board;
+var Layouter = function(spacingX, spacingY, height, rawPins) {
+  this.spacingX = spacingX;
+  this.spacingY = spacingY;
+  this.rawPins = rawPins;
+  this.height = height;
+  this.coords = [];
+};
+
+Layouter.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
+  var length = rawPins.length;
+  var yOffset = 50;
+
+  var i = 1;
+  var that = this;
+  var coords = rawPins.map(function(pin) {
+    i++;
+    pin.y = yOffset + spacingY * i; 
+    pin.x = spacingX;
+    return pin;
+  })
+  return coords;
+}
+
+Layouter.prototype.calcEast = function() {
+  var rawPins = this.rawPins.east;
+
+  var spacingX = this.spacingX;
+  var spacingY = this.spacingY;
+
+  this.coords.push(this._resolveVertical(rawPins, spacingX, spacingY));
+}
+
+Layouter.prototype._placePin = function(pin, rawPins, i) {
+    var length = rawPins.length;
+    var name = rawPins[length - i +1].name; // count backward
+    if (name != "") {
+      return {
+        x: i * this.spacingX,
+        y: this.spacingY,
+        name: name 
+      }
+    }
+}
+
+Layouter.prototype.calcNorth = function() {
+  var rawPins = this.rawPins.north;
+
+  var spacingX = this.spacingX;
+  var spacingY = this.spacingY;
+
+  var i = 1;
+  var that = this;
+  var coords = rawPins.map(function(pin) {
+    i++;
+    return that._placePin(pin, rawPins, i);
+  });
+  coords = _.chain(coords).flatten().compact().value();
+
+  this.coords.push(coords);
+}
+
+Layouter.prototype.calcSouth = function() {
+  var rawPins = this.rawPins.south;
+
+  var spacingX = this.spacingX;
+  var spacingY = this.spacingY;
+
+  var i = 1;
+  var that = this;
+  var coords = rawPins.map(function(pin) {
+    i++;
+    return that._placePin(pin, rawPins, i);
+  });
+  coords = _.chain(coords).flatten().compact().value();
+
+  coords = _translate(coords, 0, this.height);
+  this.coords.push(coords);
+}
+
+Layouter.prototype.calcEast = function() {
+  var rawPins = this.rawPins.east;
+
+  var spacingX = this.spacingX;
+  var spacingY = this.spacingY;
+
+  var coords = this._resolveVertical(rawPins, spacingX, spacingY);
+
+  coords = _.chain(coords).flatten().compact().value();
+
+  coords = _translate(coords, 670, 0);
+  this.coords.push(coords);
+}
+
+Layouter.prototype.calcWest = function() {
+  var rawPins = this.rawPins.west;
+
+  var spacingX = this.spacingX;
+  var spacingY = this.spacingY;
+
+  var coords = this._resolveVertical(rawPins, spacingX, spacingY);
+  this.coords.push(coords);
+}
 
 
-},{"underscore":3}],"board":[function(require,module,exports){
-module.exports=require('t2jbNN');
+Layouter.prototype.calcCoord = function() {
+  this.calcEast();
+  this.calcSouth();
+  this.calcNorth();
+  this.calcWest();
+  this.coords = _.chain(this.coords).flatten().compact().value();
+}
+
+
+module.exports = Layouter;
+
+},{"underscore":3}],"layouter":[function(require,module,exports){
+module.exports=require('faHS6N');
 },{}],3:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org

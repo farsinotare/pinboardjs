@@ -14,7 +14,7 @@ function _translate(coords, x, y) {
 
 }
 
-var PinsLayout = function(spacingX, spacingY, height, rawPins) {
+var Layouter = function(spacingX, spacingY, height, rawPins) {
   this.spacingX = spacingX;
   this.spacingY = spacingY;
   this.rawPins = rawPins;
@@ -22,7 +22,7 @@ var PinsLayout = function(spacingX, spacingY, height, rawPins) {
   this.coords = [];
 };
 
-PinsLayout.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
+Layouter.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
   var length = rawPins.length;
   var yOffset = 50;
 
@@ -37,7 +37,7 @@ PinsLayout.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
   return coords;
 }
 
-PinsLayout.prototype.calcEast = function() {
+Layouter.prototype.calcEast = function() {
   var rawPins = this.rawPins.east;
 
   var spacingX = this.spacingX;
@@ -46,7 +46,7 @@ PinsLayout.prototype.calcEast = function() {
   this.coords.push(this._resolveVertical(rawPins, spacingX, spacingY));
 }
 
-PinsLayout.prototype._placePin = function(pin, rawPins, i) {
+Layouter.prototype._placePin = function(pin, rawPins, i) {
     var length = rawPins.length;
     var name = rawPins[length - i +1].name; // count backward
     if (name != "") {
@@ -58,7 +58,7 @@ PinsLayout.prototype._placePin = function(pin, rawPins, i) {
     }
 }
 
-PinsLayout.prototype.calcNorth = function() {
+Layouter.prototype.calcNorth = function() {
   var rawPins = this.rawPins.north;
 
   var spacingX = this.spacingX;
@@ -75,7 +75,7 @@ PinsLayout.prototype.calcNorth = function() {
   this.coords.push(coords);
 }
 
-PinsLayout.prototype.calcSouth = function() {
+Layouter.prototype.calcSouth = function() {
   var rawPins = this.rawPins.south;
 
   var spacingX = this.spacingX;
@@ -93,7 +93,7 @@ PinsLayout.prototype.calcSouth = function() {
   this.coords.push(coords);
 }
 
-PinsLayout.prototype.calcEast = function() {
+Layouter.prototype.calcEast = function() {
   var rawPins = this.rawPins.east;
 
   var spacingX = this.spacingX;
@@ -107,7 +107,7 @@ PinsLayout.prototype.calcEast = function() {
   this.coords.push(coords);
 }
 
-PinsLayout.prototype.calcWest = function() {
+Layouter.prototype.calcWest = function() {
   var rawPins = this.rawPins.west;
 
   var spacingX = this.spacingX;
@@ -118,7 +118,7 @@ PinsLayout.prototype.calcWest = function() {
 }
 
 
-PinsLayout.prototype.calcCoord = function() {
+Layouter.prototype.calcCoord = function() {
   this.calcEast();
   this.calcSouth();
   this.calcNorth();
@@ -127,4 +127,4 @@ PinsLayout.prototype.calcCoord = function() {
 }
 
 
-module.exports = PinsLayout;
+module.exports = Layouter;

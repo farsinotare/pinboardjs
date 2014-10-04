@@ -11,13 +11,15 @@ Board = function() {};
 Board.prototype.initialize = function(s, options) {
   this.svg = s;
 
-  this.xOffset = options.offset.x;
-  this.yOffset = options.offset.y;
+  var skin_board = options.skin.board; 
 
-  this.northHeight = options.north.height;
-  this.verticalHeight = options.middle.height;
-  this.verticalWidth = options.middle.outer_width;
-  this.outerWidth = options.middle.inner_width + this.verticalWidth;
+  this.xOffset = skin_board.offset.x;
+  this.yOffset = skin_board.offset.y;
+
+  this.northHeight = skin_board.north.height;
+  this.verticalHeight = skin_board.middle.height;
+  this.verticalWidth = skin_board.middle.outer_width;
+  this.outerWidth = skin_board.middle.inner_width + this.verticalWidth;
 }
 
 Board.prototype.draw = function() {
