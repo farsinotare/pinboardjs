@@ -1,17 +1,18 @@
+.PHONY: all
 
 static/s.js:
 	browserify -r ./app/s.js:svg > static/s.js
 	
-static/pinData.js:
+pinData:
 	browserify -r ./pins.json:pinData > static/pinData.js
 
-static/board.js:
+board:
 	browserify -r ./app/board.js:board > static/board.js
 
-static/pins.js:
+pins:
 	browserify -r ./app/pins.js:pins > static/pins.js
 
-static/layouter.js:
+layouter:
 	browserify -r ./app/layouter.js:layouter > static/layouter.js
 
-all: static/s.js static/pinData.js static/pins.js static/layouter.js static/board.js
+all: static/s.js static/pinData.js pins layouter board
