@@ -30,14 +30,15 @@ For example for an Arduino UNO, the mainboard data is provided by the following 
             },
             "middle": {
                 "height": 220,
-                "outer_width": 90,
+                "outer_width": 95,
                 "inner_width": 660
             }
         },
         "pins": {
             "offset": {
                 "x": 5,
-                "y": 0
+                "y": 0,
+                "vertical": 140
             },
             "height": 280,
             "small": {
@@ -47,7 +48,7 @@ For example for an Arduino UNO, the mainboard data is provided by the following 
             },
             "large": {
                 "height": 40,
-                "width": 40,
+                "width": 50,
                 "color": "#cdc9c9"
             },
             "spacing": {
@@ -56,114 +57,125 @@ For example for an Arduino UNO, the mainboard data is provided by the following 
             }
         }
     },
-    "west": [
+    "pingroups": [
         {
-            "name": "USB",
-            "type": "big"
+            "name": "west",
+            "pins": [
+                {
+                    "name": "USB",
+                    "type": "large"
+                }
+            ]
         },
         {
-            "name": "power"
-        }
-    ],
-    "east": [
-        {
-            "name": "ISCP",
-            "type": "big"
-        }
-    ],
-    "north": [
-        {
-            "name": "AREF",
-            "type": "small"
+            "name": "east",
+            "pins": [
+                {
+                    "name": "ISCP",
+                    "type": "large"
+                }
+            ]
         },
         {
-            "name": "GND"
+            "name": "north",
+            "pins": [
+                {
+                    "name": "AREF",
+                    "type": "small"
+                },
+                {
+                    "name": "GND"
+                },
+                {
+                    "name": "D13"
+                },
+                {
+                    "name": "D12"
+                },
+                {
+                    "name": "D11"
+                },
+                {
+                    "name": "D10"
+                },
+                {
+                    "name": "D9"
+                },
+                {
+                    "name": "D8"
+                },
+                {
+                    "name": ""
+                },
+                {
+                    "name": "D7"
+                },
+                {
+                    "name": "D6"
+                },
+                {
+                    "name": "D5"
+                },
+                {
+                    "name": "D4"
+                },
+                {
+                    "name": "D3"
+                },
+                {
+                    "name": "D2"
+                },
+                {
+                    "name": "D1"
+                },
+                {
+                    "name": "D0"
+                }
+            ]
         },
         {
-            "name": "D13"
-        },
-        {
-            "name": "D12"
-        },
-        {
-            "name": "D11"
-        },
-        {
-            "name": "D10"
-        },
-        {
-            "name": "D9"
-        },
-        {
-            "name": "D8"
-        },
-        {
-            "name": ""
-        },
-        {
-            "name": "D7"
-        },
-        {
-            "name": "D6"
-        },
-        {
-            "name": "D5"
-        },
-        {
-            "name": "D4"
-        },
-        {
-            "name": "D3"
-        },
-        {
-            "name": "D2"
-        },
-        {
-            "name": "D1"
-        },
-        {
-            "name": "D0"
-        }
-    ],
-    "south": [
-        {
-            "name": "RESET"
-        },
-        {
-            "name": "3V3"
-        },
-        {
-            "name": "5V"
-        },
-        {
-            "name": "GND"
-        },
-        {
-            "name": "GND"
-        },
-        {
-            "name": "VIN"
-        },
-        {
-            "name": ""
-        },
-        {
-            "name": "A0"
-        },
-        {
-            "name": "A1"
-        },
-        {
-            "name": "A2"
-        },
-        {
-            "name": "A3"
-        },
-        {
-            "name": "A4"
-        },
-        {
-            "name": "A5"
+            "name": "south",
+            "pins": [
+                {
+                    "name": "RESET"
+                },
+                {
+                    "name": "3V3"
+                },
+                {
+                    "name": "5V"
+                },
+                {
+                    "name": "GND"
+                },
+                {
+                    "name": "GND"
+                },
+                {
+                    "name": "VIN"
+                },
+                {
+                    "name": ""
+                },
+                {
+                    "name": "A0"
+                },
+                {
+                    "name": "A1"
+                },
+                {
+                    "name": "A2"
+                },
+                {
+                    "name": "A3"
+                },
+                {
+                    "name": "A4"
+                },
+                {
+                    "name": "A5"
+                }
+            ]
         }
     ]
 }
