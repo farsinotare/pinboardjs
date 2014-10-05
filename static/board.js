@@ -1,6 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"board":[function(require,module,exports){
-module.exports=require('t2jbNN');
-},{}],"t2jbNN":[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"t2jbNN":[function(require,module,exports){
 // pinboardjs
 // The Board draws shapes of a PCB upon which pins are placed.
 // 
@@ -30,6 +28,7 @@ Board.prototype.initialize = function(s, options) {
   this.background = this.skin_board.background;
 }
 
+// render the board with individual rectangles
 Board.prototype.render = function() {
 
   var xOffset = this.xOffset;
@@ -54,7 +53,9 @@ Board.prototype.render = function() {
 module.exports = Board;
 
 
-},{"underscore":3}],3:[function(require,module,exports){
+},{"underscore":3}],"board":[function(require,module,exports){
+module.exports=require('t2jbNN');
+},{}],3:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

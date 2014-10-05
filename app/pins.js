@@ -12,6 +12,7 @@ Pins = function(s, options) {
   // basic paramters from skin
   this.xOffset = this.board.skin.pins.offset.x;
   this.yOffset = this.board.skin.pins.offset.y;
+  this.verticalOffset = this.board.skin.pins.offset.vertical;
   this.height = this.board.skin.pins.height;
 
   this.small = {};
@@ -41,11 +42,13 @@ Pins.prototype.render = function() {
   var offsetX = this.xOffset;
   var offsetY = this.yOffset; 
   var height = this.height;
+  var verticalOffset = this.verticalOffset;
 
   var options = {
     spacingX: spacingX,
     spacingY: spacingY,
     height: height,
+    verticalOffset: verticalOffset,
     rawPins: this.board
   };
   var layouter = new Layouter(options);

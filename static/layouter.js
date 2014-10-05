@@ -1,10 +1,15 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"faHS6N":[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"layouter":[function(require,module,exports){
+module.exports=require('faHS6N');
+},{}],"faHS6N":[function(require,module,exports){
+// pinboardjs
+// The Layouter calculates the positions of pins.
+// Here goes the main logic for calculating the placement of pins.
+// 
+// (c) patrick mulder, 2014
+
 var _ = require('underscore');
 
-function lookupName() {
-  return rawPins.length - i + 2 
-}
-
+// helper function to shift pins along an axis
 function _translate(coords, x, y) {
 
   return coords.map(function(coord) {
@@ -12,45 +17,65 @@ function _translate(coords, x, y) {
     coord.y += y;
     return coord;
   });
-
 }
 
-var Layouter = function(spacingX, spacingY, height, rawPins) {
-  this.spacingX = spacingX;
-  this.spacingY = spacingY;
-  this.rawPins = rawPins;
-  this.height = height;
+// constructor
+var Layouter = function(options) {
+  this.spacingX = options.spacingX;
+  this.spacingY = options.spacingY;
+  this.rawPins = options.rawPins;
+  this.height = options.height;
+
+  this.verticalOffset = options.verticalOffset;
+
+  // the place for the coordinates
   this.coords = [];
 };
 
+// calculate positions of pins for vertical placement
 Layouter.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
-  var length = rawPins.length;
-  var yOffset = 50;
 
-  var i = 1;
+  var coords = [];
   var that = this;
-  var coords = rawPins.map(function(pin) {
-    i++;
-    pin.y = yOffset + spacingY * i; 
-    pin.x = spacingX;
-    return pin;
-  })
+  for (var i=0; i < rawPins.length; i++) {
+    var pin = rawPins[i];
+    if (pin.name) {
+      pin.y = that.verticalOffset + spacingY * i; 
+      pin.x = spacingX;
+      coords.push(pin);
+    }
+  };
+
   return coords;
 }
 
-Layouter.prototype.calcEast = function() {
-  var rawPins = this.rawPins.east;
+// get pins of a pingroup
+Layouter.prototype._findGroup = function(name) {
+  var pingroup = _.find(this.rawPins.pingroups, {'name': name});
 
-  var spacingX = this.spacingX;
-  var spacingY = this.spacingY;
-
-  this.coords.push(this._resolveVertical(rawPins, spacingX, spacingY));
+  // return pins if found, otherwise empty array
+  return _.has(pingroup, 'pins') ? pingroup.pins : [];
 }
 
-Layouter.prototype._placePin = function(pin, rawPins, i) {
+Layouter.prototype._placePinAsc = function(pin, rawPins, i) {
     var length = rawPins.length;
     var name = rawPins[length - i +1].name; // count backward
-    if (name != "") {
+    if (name) {
+      return {
+        x: i * this.spacingX,
+        y: this.spacingY,
+        name: name 
+      }
+    }
+}
+
+// place pin and attach label to pin
+Layouter.prototype._placePin = function(pin, rawPins, i) {
+    var length = rawPins.length;
+    var pin = rawPins[i-1];
+ 
+    var name = _.has(pin, 'name') ? pin.name : ''; 
+    if (name) {
       return {
         x: i * this.spacingX,
         y: this.spacingY,
@@ -60,42 +85,47 @@ Layouter.prototype._placePin = function(pin, rawPins, i) {
 }
 
 Layouter.prototype.calcNorth = function() {
-  var rawPins = this.rawPins.north;
+  var rawPins = _.find(this.rawPins.pingroups, {'name':'north'}).pins;
+  var rawPins = this._findGroup('north');
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
 
-  var i = 1;
   var that = this;
-  var coords = rawPins.map(function(pin) {
-    i++;
-    return that._placePin(pin, rawPins, i);
-  });
-  coords = _.chain(coords).flatten().compact().value();
+  var coords = [];
+  for (var i=0; i <= rawPins.length; i++) {
+    var pin = rawPins[i];
+    var coord = that._placePin(pin, rawPins, i);
+    if (coord) {
+      coords.push(coord);
+    }
+  };
 
   this.coords.push(coords);
 }
 
 Layouter.prototype.calcSouth = function() {
-  var rawPins = this.rawPins.south;
+  var rawPins = this._findGroup('south');
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
 
-  var i = 1;
+  var coords = [];
   var that = this;
-  var coords = rawPins.map(function(pin) {
-    i++;
-    return that._placePin(pin, rawPins, i);
-  });
-  coords = _.chain(coords).flatten().compact().value();
+  for (var i=0; i <= rawPins.length; i++) {
+    var pin = rawPins[i];
+    var coord = that._placePin(pin, rawPins, i);
+    if (coord) {
+      coords.push(coord);
+    }
+  };
 
   coords = _translate(coords, 0, this.height);
   this.coords.push(coords);
 }
 
 Layouter.prototype.calcEast = function() {
-  var rawPins = this.rawPins.east;
+  var rawPins = this._findGroup('east');
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
@@ -109,7 +139,7 @@ Layouter.prototype.calcEast = function() {
 }
 
 Layouter.prototype.calcWest = function() {
-  var rawPins = this.rawPins.west;
+  var rawPins = this._findGroup('west');
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
@@ -124,15 +154,15 @@ Layouter.prototype.calcCoord = function() {
   this.calcSouth();
   this.calcNorth();
   this.calcWest();
+
+  // flatten array and remove duplicates
   this.coords = _.chain(this.coords).flatten().compact().value();
 }
 
 
 module.exports = Layouter;
 
-},{"underscore":3}],"layouter":[function(require,module,exports){
-module.exports=require('faHS6N');
-},{}],3:[function(require,module,exports){
+},{"underscore":3}],3:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

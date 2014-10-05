@@ -23,20 +23,21 @@ var Layouter = function(options) {
   this.rawPins = options.rawPins;
   this.height = options.height;
 
+  this.verticalOffset = options.verticalOffset;
+
   // the place for the coordinates
   this.coords = [];
 };
 
 // calculate positions of pins for vertical placement
 Layouter.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
-  var yOffset = 90;
 
   var coords = [];
   var that = this;
   for (var i=0; i < rawPins.length; i++) {
     var pin = rawPins[i];
     if (pin.name) {
-      pin.y = yOffset + spacingY * i; 
+      pin.y = that.verticalOffset + spacingY * i; 
       pin.x = spacingX;
       coords.push(pin);
     }
@@ -65,6 +66,7 @@ Layouter.prototype._placePinAsc = function(pin, rawPins, i) {
     }
 }
 
+// place pin and attach label to pin
 Layouter.prototype._placePin = function(pin, rawPins, i) {
     var length = rawPins.length;
     var pin = rawPins[i-1];
