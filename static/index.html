@@ -10,60 +10,26 @@
       font:500 14px/21px 'Helvetica Neue', Helvetica, Arials;
       padding:40px;
     }
+
+    h1 {
+      font-size: 40px;
+    }
   </style>
   
 </head>
 
 <body>
+<h1>Pinboard.js</h1>
 
-  <h1>Arduino UNO</h1>
+<h2><a href="/arduino_uno">Arduino UNO board</a></h2>
+<h2><a href="/tessel">Tessel (WIP)</a></h2>
 
-  <a href="http://arduino.cc/en/uploads/Main/ArduinoUno_R3_Front_450px.jpg">board photo</a>
+<h3>Overview</h3>
 
-  <svg id="main" width="1500" height="1000">
-  </svg>
+Pinboard.js provides some help with rendering and interacting with electronic boards, such as Arduino or Tessel. The boards drawn by Pinboard represent the physical entity, but are less complex to handle.
 
-  <script>
-  var pinData = { "skin": {
-    "board": { "background": "#358287",
-    "offset": { "x": 20, "y": 15 },
-    "north": {"height": 60 },
-    "middle": {"height": 220, "outer_width": 95, "inner_width": 660 }
-    },
-    "pins": {
-      "offset": { "x": 5, "y": 0, "vertical": 130 },
-      "height": 280,
-      "small": { "height": 20, "width": 20, "color": "#000000" },
-      "large": { "height": 40, "width": 50, "color": "#cdc9c9" },
-      "spacing": { "x": 40, "y": 40 }
-    }
-   }, 
-   "pingroups": [{ "name": "west", "pins": [{"name": "USB", "type": "large"}]}, {"name": "east", "pins": [{"name": "ISCP", "type":"large"}]}, {"name": "north", "pins": [{"name": "AREF", "type": "small" }, {"name": "GND"}, 
- {"name": "D13"}, {"name": "D12"}, {"name": "D11"}, {"name": "D10"},
- {"name": "D9"}, {"name": "D8"}, {"name": ""}, {"name": "D7"},
- {"name": "D6"}, {"name": "D5"}, {"name": "D4"}, {"name": "D3"}, {"name": "D2"},
- {"name": "D1"}, {"name": "D0"} ]}, {"name": "south", "pins": [
-{"name": "RESET"}, {"name": "3V3"}, {"name": "5V"}, {"name": "GND"}, {"name": "GND"},
-{"name": "VIN"}, {"name": ""}, {"name": "A0"}, {"name": "A1"}, {"name": "A2"},
-{"name": "A3"}, {"name": "A4"}, {"name": "A5"} ]}]
-}
-  </script>
+<a href="https://github.com/farsinotare/pinboardjs">Pinboard.js @ github.com</a>
 
-  <script src="s.js"></script>
-  <script src="board.js"></script>
-  <script src="pins.js"></script>
-
-  <script>
-    var s = require('svg');
-    
-    var Board = require('board');
-    var board = new Board(s, pinData);
-    board.render();
-  
-    var Pins = require('pins');
-    var pins = new Pins(s, {board: pinData});
-    pins.render();
-  </script>
 
 </body>
 

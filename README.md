@@ -8,6 +8,8 @@ The boards drawn by Pinboard represent the physical entity, but are less complex
 
 The SVG graphics can be used to lookup pin configurations or share pins in a hardware project
 
+<img src="static/arduino_uno.png" />
+
 ## How does it work?
 
 Pinboard uses the SnapSVG library that is wrapped in a CommonJS module and packaged for the browser with browserify.
