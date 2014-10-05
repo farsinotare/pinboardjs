@@ -7,27 +7,33 @@ var pinWidth = 20;
 var spacingX = 40;
 var spacingY = 40;
 
-Pins = function() {};
+Pins = function(s, options) {
 
-Pins.prototype.initialize = function(s, options) {
   this.svg = s;
-  this.rawPins = options.rawPins;
+  this.board = options.board;
 
-  this.xOffset = options.rawPins.skin.pins.offset.x;
-  this.yOffset = options.rawPins.skin.pins.offset.y;
-  this.height = options.rawPins.skin.pins.height;
+  // basic paramters from skin
+  this.xOffset = this.board.skin.pins.offset.x;
+  this.yOffset = this.board.skin.pins.offset.y;
+  this.height = this.board.skin.pins.height;
 
-}
+  this.initialize.apply(this, arguments);
+};
 
-Pins.prototype.place = function() {
+// to override with custom initialization 
+Pins.prototype.initialize = function() {}
+
+// render the pins
+Pins.prototype.render = function() {
+
   var offsetX = this.xOffset;
   var offsetY = this.yOffset; 
   var height = this.height;
 
-  var pinsLayout = new Layouter(spacingX, spacingY, height, this.rawPins);
-  pinsLayout.calcCoord();
+  var layouter = new Layouter(spacingX, spacingY, height, this.board);
+  layouter.calcCoord();
   
-  var pins = pinsLayout.coords; 
+  var pins = layouter.coords; 
 
   var that = this;
   pins.forEach(function(pin) {

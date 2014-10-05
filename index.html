@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Pins for Arduino UNO</title>
-
   
   <style>
     body{
@@ -50,20 +49,16 @@
   <script src="static/board.js"></script>
   <script src="static/pins.js"></script>
 
-
   <script>
     var s = require('svg');
     
     var Board = require('board');
-    var board = new Board();
-    board.initialize(s, pinData);
-    board.draw();
+    var board = new Board(s, pinData);
+    board.render();
   
     var Pins = require('pins');
-    var pins = new Pins(); 
-console.log(pinData);
-    pins.initialize(s, {rawPins: pinData});
-    pins.place();
+    var pins = new Pins(s, {board: pinData});
+    pins.render();
   </script>
 
 </body>

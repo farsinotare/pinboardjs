@@ -1,9 +1,10 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var _ = require('underscore');
+// pinboardjs
+// The Layouter calculates the positions of pins.
+// 
+// (c) patrick mulder, 2014
 
-function lookupName() {
-  return rawPins.length - i + 2 
-}
+var _ = require('underscore');
 
 function _translate(coords, x, y) {
 
@@ -142,27 +143,33 @@ var pinWidth = 20;
 var spacingX = 40;
 var spacingY = 40;
 
-Pins = function() {};
+Pins = function(s, options) {
 
-Pins.prototype.initialize = function(s, options) {
   this.svg = s;
-  this.rawPins = options.rawPins;
+  this.board = options.board;
 
-  this.xOffset = options.rawPins.skin.pins.offset.x;
-  this.yOffset = options.rawPins.skin.pins.offset.y;
-  this.height = options.rawPins.skin.pins.height;
+  // basic paramters from skin
+  this.xOffset = this.board.skin.pins.offset.x;
+  this.yOffset = this.board.skin.pins.offset.y;
+  this.height = this.board.skin.pins.height;
 
-}
+  this.initialize.apply(this, arguments);
+};
 
-Pins.prototype.place = function() {
+// to override with custom initialization 
+Pins.prototype.initialize = function() {}
+
+// render the pins
+Pins.prototype.render = function() {
+
   var offsetX = this.xOffset;
   var offsetY = this.yOffset; 
   var height = this.height;
 
-  var pinsLayout = new Layouter(spacingX, spacingY, height, this.rawPins);
-  pinsLayout.calcCoord();
+  var layouter = new Layouter(spacingX, spacingY, height, this.board);
+  layouter.calcCoord();
   
-  var pins = pinsLayout.coords; 
+  var pins = layouter.coords; 
 
   var that = this;
   pins.forEach(function(pin) {

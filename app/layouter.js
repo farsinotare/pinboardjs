@@ -1,8 +1,9 @@
-var _ = require('underscore');
+// pinboardjs
+// The Layouter calculates the positions of pins.
+// 
+// (c) patrick mulder, 2014
 
-function lookupName() {
-  return rawPins.length - i + 2 
-}
+var _ = require('underscore');
 
 function _translate(coords, x, y) {
 
