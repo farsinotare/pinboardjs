@@ -23,6 +23,7 @@ var Layouter = function(options) {
   this.spacingY = options.spacingY;
   this.rawPins = options.rawPins;
   this.height = options.height;
+  this.innerWidth = options.innerWidth;
 
   this.verticalOffset = options.verticalOffset;
 
@@ -130,9 +131,7 @@ Layouter.prototype.calcEast = function() {
 
   var coords = this._resolveVertical(rawPins, spacingX, spacingY);
 
-  coords = _.chain(coords).flatten().compact().value();
-
-  coords = _translate(coords, 670, 0);
+  coords = _translate(coords, this.innerWidth, 0);
   this.coords.push(coords);
 }
 
@@ -160,7 +159,9 @@ Layouter.prototype.calcCoord = function() {
 
 module.exports = Layouter;
 
-},{"underscore":4}],"dQlQ7Q":[function(require,module,exports){
+},{"underscore":4}],"pins":[function(require,module,exports){
+module.exports=require('dQlQ7Q');
+},{}],"dQlQ7Q":[function(require,module,exports){
 var _ = require('underscore');
 var Layouter = require('./layouter.js');
 
@@ -177,6 +178,7 @@ Pins = function(s, options) {
   this.yOffset = this.board.skin.pins.offset.y;
   this.verticalOffset = this.board.skin.pins.offset.vertical;
   this.height = this.board.skin.pins.height;
+  this.inner_width = this.board.skin.board.middle.inner_width;
 
   this.small = {};
   this.small.pinWidth = this.board.skin.pins.small.width;
@@ -204,15 +206,14 @@ Pins.prototype.render = function() {
 
   var offsetX = this.xOffset;
   var offsetY = this.yOffset; 
-  var height = this.height;
-  var verticalOffset = this.verticalOffset;
 
   var options = {
     spacingX: spacingX,
     spacingY: spacingY,
-    height: height,
-    verticalOffset: verticalOffset,
-    rawPins: this.board
+    height: this.height,
+    verticalOffset: this.verticalOffset,
+    rawPins: this.board,
+    innerWidth: this.inner_width
   };
   var layouter = new Layouter(options);
   layouter.calcCoord();
@@ -235,9 +236,7 @@ Pins.prototype.render = function() {
 }
 module.exports = Pins;
 
-},{"./layouter.js":1,"underscore":4}],"pins":[function(require,module,exports){
-module.exports=require('dQlQ7Q');
-},{}],4:[function(require,module,exports){
+},{"./layouter.js":1,"underscore":4}],4:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

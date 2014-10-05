@@ -23,6 +23,7 @@ Board.prototype.initialize = function(s, options) {
   this.verticalHeight = this.skin_board.middle.height;
   this.verticalWidth = this.skin_board.middle.outer_width;
   this.outerWidth = this.skin_board.middle.inner_width + this.verticalWidth;
+  this.outerHeight = this.skin_board.height;
 
   this.background = this.skin_board.background;
 }
@@ -36,13 +37,13 @@ Board.prototype.render = function() {
   var north = this.canvas.rect(xOffset, yOffset, this.outerWidth, this.northHeight);
   north.attr({fill: this.background, stroke: "#000"});
 
-  var west = this.canvas.rect(xOffset, 60 + yOffset, this.verticalWidth, this.verticalHeight);
+  var west = this.canvas.rect(xOffset, yOffset + this.northHeight, this.verticalWidth, this.verticalHeight);
   west.attr({fill: this.background, stroke: "#000"});
   
   var east = this.canvas.rect(this.outerWidth + xOffset - this.verticalWidth, this.northHeight + this.yOffset, this.verticalWidth, this.verticalHeight);
   east.attr({fill: this.background, stroke: "#000"});
   
-  var south = this.canvas.rect(xOffset, 280 + yOffset, this.outerWidth, this.northHeight);
+  var south = this.canvas.rect(xOffset, yOffset + this.outerHeight, this.outerWidth, this.northHeight);
   south.attr({fill: this.background, stroke: "#000"});
 
   var middle = this.canvas.rect(xOffset + this.verticalWidth, yOffset + this.northHeight, this.outerWidth - 2 * this.verticalWidth, this.verticalHeight);

@@ -25,6 +25,7 @@ var Layouter = function(options) {
   this.spacingY = options.spacingY;
   this.rawPins = options.rawPins;
   this.height = options.height;
+  this.innerWidth = options.innerWidth;
 
   this.verticalOffset = options.verticalOffset;
 
@@ -132,9 +133,7 @@ Layouter.prototype.calcEast = function() {
 
   var coords = this._resolveVertical(rawPins, spacingX, spacingY);
 
-  coords = _.chain(coords).flatten().compact().value();
-
-  coords = _translate(coords, 670, 0);
+  coords = _translate(coords, this.innerWidth, 0);
   this.coords.push(coords);
 }
 

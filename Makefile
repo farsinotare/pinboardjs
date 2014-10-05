@@ -1,10 +1,13 @@
 .PHONY: all
 
-static/s.js:
+s:
 	browserify -r ./app/s.js:svg > static/s.js
 	
-pinData:
-	browserify -r ./pins.json:pinData > static/pinData.js
+arduino_uno:
+	browserify -r ./arduino_uno.json:arduino_uno > static/arduino_uno.js
+
+tessel:
+	browserify -r ./tessel.json:tessel > static/tessel.js
 
 board:
 	browserify -r ./app/board.js:board > static/board.js

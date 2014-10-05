@@ -1,6 +1,6 @@
 {
-  "name": "arduino-uno-schematics",
-  "root": "./",
+  "name": "pinboardjs",
+  "root": "./static",
   "clean_urls": true,
   "error_page": "error.html"
 }

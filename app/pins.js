@@ -14,6 +14,7 @@ Pins = function(s, options) {
   this.yOffset = this.board.skin.pins.offset.y;
   this.verticalOffset = this.board.skin.pins.offset.vertical;
   this.height = this.board.skin.pins.height;
+  this.inner_width = this.board.skin.board.middle.inner_width;
 
   this.small = {};
   this.small.pinWidth = this.board.skin.pins.small.width;
@@ -41,15 +42,14 @@ Pins.prototype.render = function() {
 
   var offsetX = this.xOffset;
   var offsetY = this.yOffset; 
-  var height = this.height;
-  var verticalOffset = this.verticalOffset;
 
   var options = {
     spacingX: spacingX,
     spacingY: spacingY,
-    height: height,
-    verticalOffset: verticalOffset,
-    rawPins: this.board
+    height: this.height,
+    verticalOffset: this.verticalOffset,
+    rawPins: this.board,
+    innerWidth: this.inner_width
   };
   var layouter = new Layouter(options);
   layouter.calcCoord();
