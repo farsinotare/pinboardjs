@@ -1,21 +1,23 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"uHiCSz":[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"arduino_uno":[function(require,module,exports){
+module.exports=require('uHiCSz');
+},{}],"uHiCSz":[function(require,module,exports){
 module.exports={
     "name": "Arduino UNO",
     "skin": {
         "board": {
             "background": "#358287",
-            "height": 280,
+            "height": 310,
             "offset": {
                 "x": 20,
                 "y": 15
             },
             "north": {
-                "height": 60
+                "height": 70
             },
             "middle": {
-                "height": 220,
-                "outer_width": 95,
-                "inner_width": 660
+                "height": 240,
+                "outer_width": 115,
+                "inner_width": 670
             }
         },
         "pins": {
@@ -24,10 +26,12 @@ module.exports={
                 "y": 0,
                 "vertical": 140
             },
-            "height": 280,
+            "height": 310,
             "small": {
                 "height": 20,
                 "width": 20,
+                "spacingX": 45,
+                "spacingY": 40,
                 "color": "#000000"
             },
             "large": {
@@ -39,6 +43,11 @@ module.exports={
                 "x": 50,
                 "y": 40
             }
+        },
+        "processor": {
+            "height": 50,
+            "width": 140,
+            "color": "#000000"
         }
     },
     "pingroups": [
@@ -57,6 +66,19 @@ module.exports={
                 {
                     "name": "ISCP",
                     "type": "large"
+                }
+            ]
+        },
+        {
+            "name": "center",
+            "position": {
+                "x": 400,
+                "y": 180
+            },
+            "pins": [
+                {
+                    "name": "ATmega328",
+                    "type": "processor"
                 }
             ]
         },
@@ -164,6 +186,4 @@ module.exports={
     ]
 }
 
-},{}],"arduino_uno":[function(require,module,exports){
-module.exports=require('uHiCSz');
 },{}]},{},[])

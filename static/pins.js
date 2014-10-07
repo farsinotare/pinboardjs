@@ -53,7 +53,10 @@ Layouter.prototype._findGroup = function(name) {
   var pingroup = _.find(this.rawPins.pingroups, {'name': name});
 
   // return pins if found, otherwise empty array
-  return _.has(pingroup, 'pins') ? pingroup.pins : [];
+  var group = {};
+  group.pins = _.has(pingroup, 'pins') ? pingroup.pins : {};
+  group.position = _.has(pingroup, 'position') ? pingroup.position : {};
+  return group;
 }
 
 Layouter.prototype._placePinAsc = function(pin, rawPins, i) {
@@ -85,7 +88,7 @@ Layouter.prototype._placePin = function(pin, rawPins, i) {
 
 Layouter.prototype.calcNorth = function() {
   var rawPins = _.find(this.rawPins.pingroups, {'name':'north'}).pins;
-  var rawPins = this._findGroup('north');
+  var rawPins = this._findGroup('north').pins;
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
@@ -104,7 +107,7 @@ Layouter.prototype.calcNorth = function() {
 }
 
 Layouter.prototype.calcSouth = function() {
-  var rawPins = this._findGroup('south');
+  var rawPins = this._findGroup('south').pins;
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
@@ -124,7 +127,7 @@ Layouter.prototype.calcSouth = function() {
 }
 
 Layouter.prototype.calcEast = function() {
-  var rawPins = this._findGroup('east');
+  var rawPins = this._findGroup('east').pins;
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
@@ -136,12 +139,37 @@ Layouter.prototype.calcEast = function() {
 }
 
 Layouter.prototype.calcWest = function() {
-  var rawPins = this._findGroup('west');
+  var rawPins = this._findGroup('west').pins;
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
 
   var coords = this._resolveVertical(rawPins, spacingX, spacingY);
+  this.coords.push(coords);
+}
+
+Layouter.prototype._resolveCenter = function(group) {
+  var coords = [];
+  var that = this;
+
+  var coord = {};
+
+  // only one component taken right now
+  coord.name = group.pins[0].name;
+  coord.type = group.pins[0].type;
+  coord.x = group.position.x;
+  coord.y = group.position.y;
+  coords.push(coord);
+
+  return coords;
+}
+
+
+// resolve coordinates of pins in center pingroup
+Layouter.prototype.calcCenter = function() {
+  var group = this._findGroup('center');
+
+  var coords = this._resolveCenter(group);
   this.coords.push(coords);
 }
 
@@ -151,6 +179,7 @@ Layouter.prototype.calcCoord = function() {
   this.calcSouth();
   this.calcNorth();
   this.calcWest();
+  this.calcCenter();
 
   // flatten array and remove duplicates
   this.coords = _.chain(this.coords).flatten().compact().value();
@@ -165,9 +194,6 @@ module.exports=require('dQlQ7Q');
 var _ = require('underscore');
 var Layouter = require('./layouter.js');
 
-var spacingX = 40;
-var spacingY = 40;
-
 Pins = function(s, options) {
 
   this.svg = s;
@@ -180,10 +206,13 @@ Pins = function(s, options) {
   this.height = this.board.skin.pins.height;
   this.inner_width = this.board.skin.board.middle.inner_width;
 
+  // pin render information
   this.small = {};
   this.small.pinWidth = this.board.skin.pins.small.width;
   this.small.pinHeight = this.board.skin.pins.small.height;
   this.small.color = this.board.skin.pins.small.color;
+  this.small.spacingX = this.board.skin.pins.small.spacingX;
+  this.small.spacingY = this.board.skin.pins.small.spacingY;
 
   this.large = {};
   this.large.pinWidth = this.board.skin.pins.large.width;
@@ -199,6 +228,10 @@ Pins.prototype.initialize = function() {}
 Pins.prototype._renderPin = function(x, y, w, h, color) {
   r = this.svg.rect(x, y, w, h);
   r.attr({fill: color, stroke: '#000000'});
+  r.click(function(e) {
+    var node = e.currentTarget;
+    Snap(node).attr({fill: 'yellow'});
+  });
 }
 
 // render the pins
@@ -208,8 +241,8 @@ Pins.prototype.render = function() {
   var offsetY = this.yOffset; 
 
   var options = {
-    spacingX: spacingX,
-    spacingY: spacingY,
+    spacingX: this.small.spacingX,
+    spacingY: this.small.spacingY,
     height: this.height,
     verticalOffset: this.verticalOffset,
     rawPins: this.board,
@@ -222,9 +255,13 @@ Pins.prototype.render = function() {
 
   var that = this;
   pins.forEach(function(pin) {
+    console.log(pin.type);
     if (pin.type == 'large') {
       that._renderPin(offsetX + pin.x, offsetY + pin.y,
         that.large.pinWidth, that.large.pinHeight, that.large.color);
+    } else if (pin.type == 'processor') {
+      that._renderPin(offsetX + pin.x, offsetY + pin.y,
+        260, that.large.pinHeight, that.large.color);
     } else {
       that._renderPin(offsetX + pin.x, offsetY + pin.y,
         that.small.pinWidth, that.small.pinHeight, that.small.color);

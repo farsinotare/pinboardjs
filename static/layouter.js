@@ -1,6 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"layouter":[function(require,module,exports){
-module.exports=require('faHS6N');
-},{}],"faHS6N":[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"faHS6N":[function(require,module,exports){
 // pinboardjs
 // The Layouter calculates the positions of pins.
 // Here goes the main logic for calculating the placement of pins.
@@ -55,7 +53,10 @@ Layouter.prototype._findGroup = function(name) {
   var pingroup = _.find(this.rawPins.pingroups, {'name': name});
 
   // return pins if found, otherwise empty array
-  return _.has(pingroup, 'pins') ? pingroup.pins : [];
+  var group = {};
+  group.pins = _.has(pingroup, 'pins') ? pingroup.pins : {};
+  group.position = _.has(pingroup, 'position') ? pingroup.position : {};
+  return group;
 }
 
 Layouter.prototype._placePinAsc = function(pin, rawPins, i) {
@@ -87,7 +88,7 @@ Layouter.prototype._placePin = function(pin, rawPins, i) {
 
 Layouter.prototype.calcNorth = function() {
   var rawPins = _.find(this.rawPins.pingroups, {'name':'north'}).pins;
-  var rawPins = this._findGroup('north');
+  var rawPins = this._findGroup('north').pins;
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
@@ -106,7 +107,7 @@ Layouter.prototype.calcNorth = function() {
 }
 
 Layouter.prototype.calcSouth = function() {
-  var rawPins = this._findGroup('south');
+  var rawPins = this._findGroup('south').pins;
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
@@ -126,7 +127,7 @@ Layouter.prototype.calcSouth = function() {
 }
 
 Layouter.prototype.calcEast = function() {
-  var rawPins = this._findGroup('east');
+  var rawPins = this._findGroup('east').pins;
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
@@ -138,12 +139,37 @@ Layouter.prototype.calcEast = function() {
 }
 
 Layouter.prototype.calcWest = function() {
-  var rawPins = this._findGroup('west');
+  var rawPins = this._findGroup('west').pins;
 
   var spacingX = this.spacingX;
   var spacingY = this.spacingY;
 
   var coords = this._resolveVertical(rawPins, spacingX, spacingY);
+  this.coords.push(coords);
+}
+
+Layouter.prototype._resolveCenter = function(group) {
+  var coords = [];
+  var that = this;
+
+  var coord = {};
+
+  // only one component taken right now
+  coord.name = group.pins[0].name;
+  coord.type = group.pins[0].type;
+  coord.x = group.position.x;
+  coord.y = group.position.y;
+  coords.push(coord);
+
+  return coords;
+}
+
+
+// resolve coordinates of pins in center pingroup
+Layouter.prototype.calcCenter = function() {
+  var group = this._findGroup('center');
+
+  var coords = this._resolveCenter(group);
   this.coords.push(coords);
 }
 
@@ -153,6 +179,7 @@ Layouter.prototype.calcCoord = function() {
   this.calcSouth();
   this.calcNorth();
   this.calcWest();
+  this.calcCenter();
 
   // flatten array and remove duplicates
   this.coords = _.chain(this.coords).flatten().compact().value();
@@ -161,7 +188,9 @@ Layouter.prototype.calcCoord = function() {
 
 module.exports = Layouter;
 
-},{"underscore":3}],3:[function(require,module,exports){
+},{"underscore":3}],"layouter":[function(require,module,exports){
+module.exports=require('faHS6N');
+},{}],3:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

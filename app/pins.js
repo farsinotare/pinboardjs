@@ -1,9 +1,6 @@
 var _ = require('underscore');
 var Layouter = require('./layouter.js');
 
-var spacingX = 40;
-var spacingY = 40;
-
 Pins = function(s, options) {
 
   this.svg = s;
@@ -16,10 +13,13 @@ Pins = function(s, options) {
   this.height = this.board.skin.pins.height;
   this.inner_width = this.board.skin.board.middle.inner_width;
 
+  // pin render information
   this.small = {};
   this.small.pinWidth = this.board.skin.pins.small.width;
   this.small.pinHeight = this.board.skin.pins.small.height;
   this.small.color = this.board.skin.pins.small.color;
+  this.small.spacingX = this.board.skin.pins.small.spacingX;
+  this.small.spacingY = this.board.skin.pins.small.spacingY;
 
   this.large = {};
   this.large.pinWidth = this.board.skin.pins.large.width;
@@ -35,6 +35,10 @@ Pins.prototype.initialize = function() {}
 Pins.prototype._renderPin = function(x, y, w, h, color) {
   r = this.svg.rect(x, y, w, h);
   r.attr({fill: color, stroke: '#000000'});
+  r.click(function(e) {
+    var node = e.currentTarget;
+    Snap(node).attr({fill: 'yellow'});
+  });
 }
 
 // render the pins
@@ -44,8 +48,8 @@ Pins.prototype.render = function() {
   var offsetY = this.yOffset; 
 
   var options = {
-    spacingX: spacingX,
-    spacingY: spacingY,
+    spacingX: this.small.spacingX,
+    spacingY: this.small.spacingY,
     height: this.height,
     verticalOffset: this.verticalOffset,
     rawPins: this.board,
@@ -58,9 +62,13 @@ Pins.prototype.render = function() {
 
   var that = this;
   pins.forEach(function(pin) {
+    console.log(pin.type);
     if (pin.type == 'large') {
       that._renderPin(offsetX + pin.x, offsetY + pin.y,
         that.large.pinWidth, that.large.pinHeight, that.large.color);
+    } else if (pin.type == 'processor') {
+      that._renderPin(offsetX + pin.x, offsetY + pin.y,
+        260, that.large.pinHeight, that.large.color);
     } else {
       that._renderPin(offsetX + pin.x, offsetY + pin.y,
         that.small.pinWidth, that.small.pinHeight, that.small.color);
