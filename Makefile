@@ -6,6 +6,9 @@ s:
 arduino_uno:
 	browserify -r ./arduino_uno.json:arduino_uno > static/arduino_uno.js
 
+arduino_nano:
+	browserify -r ./arduino_nano.json:arduino_nano > static/arduino_nano.js
+
 tessel:
 	browserify -r ./tessel.json:tessel > static/tessel.js
 
