@@ -27,10 +27,6 @@
                 "height": 40,
                 "width": 50,
                 "color": "#cdc9c9"
-            },
-            "spacing": {
-                "x": 50,
-                "y": 40
             }
         },
         "small": {},

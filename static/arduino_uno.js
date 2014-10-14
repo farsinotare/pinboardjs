@@ -21,29 +21,18 @@ module.exports={
             }
         },
         "pins": {
-            "offset": {
-                "x": 5,
-                "y": 0,
-                "vertical": 140
-            },
-            "height": 310,
             "small": {
                 "height": 20,
                 "width": 20,
-                "spacingX": 45,
-                "spacingY": 40,
                 "color": "#000000"
             },
             "large": {
                 "height": 40,
                 "width": 50,
                 "color": "#cdc9c9"
-            },
-            "spacing": {
-                "x": 50,
-                "y": 40
             }
         },
+        "small": {},
         "processor": {
             "height": 50,
             "width": 140,
@@ -53,6 +42,12 @@ module.exports={
     "pingroups": [
         {
             "name": "west",
+            "direction": "vertical",
+            "position": {
+              "x": 40,
+              "y": 120,
+              "spacingY": 30
+            },
             "pins": [
                 {
                     "name": "USB",
@@ -62,6 +57,12 @@ module.exports={
         },
         {
             "name": "east",
+            "direction": "vertical",
+            "position": {
+              "x": 720,
+              "y": 120,
+              "spacingY": 40
+            },
             "pins": [
                 {
                     "name": "ISCP",
@@ -84,6 +85,12 @@ module.exports={
         },
         {
             "name": "north",
+            "direction": "horizontal",
+            "position": {
+              "x": 50,
+              "y": 40,
+              "spacingX": 43
+            },
             "pins": [
                 {
                     "name": "AREF",
@@ -141,6 +148,12 @@ module.exports={
         },
         {
             "name": "south",
+             "direction": "horizontal",
+            "position": {
+              "x": 80,
+              "y": 360,
+              "spacingX": 45
+            },
             "pins": [
                 {
                     "name": "RESET"

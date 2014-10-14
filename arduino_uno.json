@@ -3,26 +3,21 @@
     "skin": {
         "board": {
             "background": "#358287",
+            "height": 310,
             "offset": {
                 "x": 20,
                 "y": 15
             },
             "north": {
-                "height": 60
+                "height": 70
             },
             "middle": {
-                "height": 220,
-                "outer_width": 95,
-                "inner_width": 660
+                "height": 240,
+                "outer_width": 115,
+                "inner_width": 670
             }
         },
         "pins": {
-            "offset": {
-                "x": 5,
-                "y": 0,
-                "vertical": 140
-            },
-            "height": 280,
             "small": {
                 "height": 20,
                 "width": 20,
@@ -32,16 +27,24 @@
                 "height": 40,
                 "width": 50,
                 "color": "#cdc9c9"
-            },
-            "spacing": {
-                "x": 40,
-                "y": 40
             }
+        },
+        "small": {},
+        "processor": {
+            "height": 50,
+            "width": 140,
+            "color": "#000000"
         }
     },
     "pingroups": [
         {
             "name": "west",
+            "direction": "vertical",
+            "position": {
+              "x": 40,
+              "y": 120,
+              "spacingY": 30
+            },
             "pins": [
                 {
                     "name": "USB",
@@ -51,6 +54,12 @@
         },
         {
             "name": "east",
+            "direction": "vertical",
+            "position": {
+              "x": 720,
+              "y": 120,
+              "spacingY": 40
+            },
             "pins": [
                 {
                     "name": "ISCP",
@@ -59,7 +68,26 @@
             ]
         },
         {
+            "name": "center",
+            "position": {
+                "x": 400,
+                "y": 180
+            },
+            "pins": [
+                {
+                    "name": "ATmega328",
+                    "type": "processor"
+                }
+            ]
+        },
+        {
             "name": "north",
+            "direction": "horizontal",
+            "position": {
+              "x": 50,
+              "y": 40,
+              "spacingX": 43
+            },
             "pins": [
                 {
                     "name": "AREF",
@@ -117,6 +145,12 @@
         },
         {
             "name": "south",
+             "direction": "horizontal",
+            "position": {
+              "x": 80,
+              "y": 360,
+              "spacingX": 45
+            },
             "pins": [
                 {
                     "name": "RESET"

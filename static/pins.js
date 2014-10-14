@@ -7,21 +7,14 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
 var _ = require('underscore');
 
-// helper function to shift pins along an axis
-function _translate(coords, x, y) {
-
-  return coords.map(function(coord) {
-    coord.x += x;
-    coord.y += y;
-    return coord;
-  });
-}
-
-// constructor
+// constructor taking parameters from skin
 var Layouter = function(options) {
+
   this.spacingX = options.spacingX;
   this.spacingY = options.spacingY;
-  this.rawPins = options.rawPins;
+
+  // take pin data from board.json
+  this.boardJson = options.rawPins; 
   this.height = options.height;
   this.innerWidth = options.innerWidth;
 
@@ -32,15 +25,46 @@ var Layouter = function(options) {
 };
 
 // calculate positions of pins for vertical placement
-Layouter.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
+Layouter.prototype._resolveVertical = function(group) {
+
+  var pins = group.pins;
+  var x = group.position.x;
+  var y = group.position.y;
+  var spacingX = group.position.spacingX || 0;
+  var spacingY = group.position.spacingY || 0;
 
   var coords = [];
   var that = this;
-  for (var i=0; i < rawPins.length; i++) {
-    var pin = rawPins[i];
+
+  for (var i=0; i < pins.length; i++) {
+    var coord = pins[i];
+  
+    if (coord.name) {
+      coord.y = y + spacingY * i; 
+      coord.x = x + spacingX;
+      coords.push(coord);
+    }
+  };
+
+  return coords;
+}
+
+// calculate positions of pins for horizontal placement
+Layouter.prototype._resolveHorizontal = function(group) {
+
+  var pins = group.pins;
+  var x = group.position.x;
+  var y = group.position.y;
+  var spacingX = group.position.spacingX || 0;
+  var spacingY = group.position.spacingY || 0;
+
+  var coords = [];
+  var that = this;
+  for (var i=0; i < pins.length; i++) {
+    var pin = pins[i];
     if (pin.name) {
-      pin.y = that.verticalOffset + spacingY * i; 
-      pin.x = spacingX;
+      pin.x = x + spacingX * i;
+      pin.y = y; 
       coords.push(pin);
     }
   };
@@ -50,7 +74,7 @@ Layouter.prototype._resolveVertical = function(rawPins, spacingX, spacingY) {
 
 // get pins of a pingroup
 Layouter.prototype._findGroup = function(name) {
-  var pingroup = _.find(this.rawPins.pingroups, {'name': name});
+  var pingroup = _.find(this.boardJson.pingroups, {'name': name});
 
   // return pins if found, otherwise empty array
   var group = {};
@@ -59,22 +83,10 @@ Layouter.prototype._findGroup = function(name) {
   return group;
 }
 
-Layouter.prototype._placePinAsc = function(pin, rawPins, i) {
-    var length = rawPins.length;
-    var name = rawPins[length - i +1].name; // count backward
-    if (name) {
-      return {
-        x: i * this.spacingX,
-        y: this.spacingY,
-        name: name 
-      }
-    }
-}
-
 // place pin and attach label to pin
-Layouter.prototype._placePin = function(pin, rawPins, i) {
-    var length = rawPins.length;
-    var pin = rawPins[i-1];
+Layouter.prototype._placePin = function(pin, boardJson, i) {
+    var length = boardJson.length;
+    var pin = boardJson[i-1];
  
     var name = _.has(pin, 'name') ? pin.name : ''; 
     if (name) {
@@ -86,104 +98,50 @@ Layouter.prototype._placePin = function(pin, rawPins, i) {
     }
 }
 
-Layouter.prototype.calcNorth = function() {
-  var rawPins = _.find(this.rawPins.pingroups, {'name':'north'}).pins;
-  var rawPins = this._findGroup('north').pins;
+Layouter.prototype.calcGroup = function(group) {
 
-  var spacingX = this.spacingX;
-  var spacingY = this.spacingY;
+  if (!group.pins || group.pins.length === 0) {
+    return;
+  }
 
-  var that = this;
-  var coords = [];
-  for (var i=0; i <= rawPins.length; i++) {
-    var pin = rawPins[i];
-    var coord = that._placePin(pin, rawPins, i);
-    if (coord) {
-      coords.push(coord);
-    }
-  };
+  var coords;
 
+  if (group.direction == 'horizontal') {
+    coords = this._resolveHorizontal(group);
+  } else {
+    coords = this._resolveVertical(group);
+  }
   this.coords.push(coords);
-}
 
-Layouter.prototype.calcSouth = function() {
-  var rawPins = this._findGroup('south').pins;
-
-  var spacingX = this.spacingX;
-  var spacingY = this.spacingY;
-
-  var coords = [];
-  var that = this;
-  for (var i=0; i <= rawPins.length; i++) {
-    var pin = rawPins[i];
-    var coord = that._placePin(pin, rawPins, i);
-    if (coord) {
-      coords.push(coord);
-    }
-  };
-
-  coords = _translate(coords, 0, this.height);
-  this.coords.push(coords);
-}
-
-Layouter.prototype.calcEast = function() {
-  var rawPins = this._findGroup('east').pins;
-
-  var spacingX = this.spacingX;
-  var spacingY = this.spacingY;
-
-  var coords = this._resolveVertical(rawPins, spacingX, spacingY);
-
-  coords = _translate(coords, this.innerWidth, 0);
-  this.coords.push(coords);
-}
-
-Layouter.prototype.calcWest = function() {
-  var rawPins = this._findGroup('west').pins;
-
-  var spacingX = this.spacingX;
-  var spacingY = this.spacingY;
-
-  var coords = this._resolveVertical(rawPins, spacingX, spacingY);
-  this.coords.push(coords);
-}
-
-Layouter.prototype._resolveCenter = function(group) {
-  var coords = [];
-  var that = this;
-
-  var coord = {};
-
-  // only one component taken right now
-  coord.name = group.pins[0].name;
-  coord.type = group.pins[0].type;
-  coord.x = group.position.x;
-  coord.y = group.position.y;
-  coords.push(coord);
-
-  return coords;
-}
-
-
-// resolve coordinates of pins in center pingroup
-Layouter.prototype.calcCenter = function() {
-  var group = this._findGroup('center');
-
-  var coords = this._resolveCenter(group);
-  this.coords.push(coords);
 }
 
 
 Layouter.prototype.calcCoord = function() {
-  this.calcEast();
-  this.calcSouth();
-  this.calcNorth();
-  this.calcWest();
-  this.calcCenter();
+
+  var names = _.map(this.boardJson.pingroups, function(p) { 
+    return p.name;
+  });
+
+  var that = this;
+  names.forEach(function(name) {
+    var group = _.find(that.boardJson.pingroups, {name: name});
+    that.calcGroup(group);
+  });
 
   // flatten array and remove duplicates
   this.coords = _.chain(this.coords).flatten().compact().value();
 }
+
+// helper function to shift pins along an axis
+function _translate(coords, x, y) {
+
+  return coords.map(function(coord) {
+    coord.x += x;
+    coord.y += y;
+    return coord;
+  });
+}
+
 
 
 module.exports = Layouter;
@@ -191,22 +149,26 @@ module.exports = Layouter;
 },{"underscore":4}],"pins":[function(require,module,exports){
 module.exports=require('dQlQ7Q');
 },{}],"dQlQ7Q":[function(require,module,exports){
+// pinboardjs
+// The pins place pins according to skin and
+// coordiantes from the layouter
+// 
+// (c) patrick mulder, 2014
+
 var _ = require('underscore');
 var Layouter = require('./layouter.js');
 
 Pins = function(s, options) {
 
+  // reference to canvas for drawing
   this.svg = s;
   this.board = options.board;
 
-  // basic paramters from skin
-  this.xOffset = this.board.skin.pins.offset.x;
-  this.yOffset = this.board.skin.pins.offset.y;
-  this.verticalOffset = this.board.skin.pins.offset.vertical;
+  // basic board paramters from skin
   this.height = this.board.skin.pins.height;
   this.inner_width = this.board.skin.board.middle.inner_width;
 
-  // pin render information
+  // pin render settings from skin 
   this.small = {};
   this.small.pinWidth = this.board.skin.pins.small.width;
   this.small.pinHeight = this.board.skin.pins.small.height;
@@ -219,14 +181,27 @@ Pins = function(s, options) {
   this.large.pinHeight = this.board.skin.pins.large.height;
   this.large.color = this.board.skin.pins.large.color;
 
+  this.processor = {};
+  this.processor.pinWidth = this.board.skin.processor.width;
+  this.processor.pinHeight = this.board.skin.processor.height;
+  this.processor.pinColor = this.board.skin.processor.height;
+
   this.initialize.apply(this, arguments);
 };
 
 // to override with custom initialization 
 Pins.prototype.initialize = function() {}
 
-Pins.prototype._renderPin = function(x, y, w, h, color) {
+Pins.prototype._renderPin = function(pin, skin) {
+
+  var x = pin.x;
+  var y = pin.y;
+  var w = skin.pinWidth;
+  var h = skin.pinHeight; 
+  var color = skin.color;
+
   r = this.svg.rect(x, y, w, h);
+
   r.attr({fill: color, stroke: '#000000'});
   r.click(function(e) {
     var node = e.currentTarget;
@@ -248,26 +223,27 @@ Pins.prototype.render = function() {
     rawPins: this.board,
     innerWidth: this.inner_width
   };
+
+  // instantiate a layouter
   var layouter = new Layouter(options);
   layouter.calcCoord();
   
   var pins = layouter.coords; 
 
   var that = this;
+
+  // draw pins
   pins.forEach(function(pin) {
-    console.log(pin.type);
+
     if (pin.type == 'large') {
-      that._renderPin(offsetX + pin.x, offsetY + pin.y,
-        that.large.pinWidth, that.large.pinHeight, that.large.color);
+      that._renderPin(pin, that.large); 
     } else if (pin.type == 'processor') {
-      that._renderPin(offsetX + pin.x, offsetY + pin.y,
-        260, that.large.pinHeight, that.large.color);
+      that._renderPin(pin, that.processor);
     } else {
-      that._renderPin(offsetX + pin.x, offsetY + pin.y,
-        that.small.pinWidth, that.small.pinHeight, that.small.color);
+      that._renderPin(pin, that.small);
     }
    
-    var label = s.text(offsetX + pin.x, offsetY + pin.y, pin.name);
+    var label = s.text(pin.x, pin.y - 5, pin.name);
     label.attr({fill: '#ffffff', stroke: 'none'});
   });
 }
