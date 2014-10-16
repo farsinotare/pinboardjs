@@ -9,6 +9,15 @@ arduino_uno:
 arduino_nano:
 	browserify -r ./arduino_nano.json:arduino_nano > static/arduino_nano.js
 
+arduino_mini:
+	browserify -r ./arduino_mini.json:arduino_mini > static/arduino_mini.js
+
+arduino_micro:
+	browserify -r ./arduino_micro.json:arduino_micro > static/arduino_micro.js
+
+ledlogics_one:
+	browserify -r ./ledlogics_one.json:ledlogics_one > static/ledlogics_one.js
+
 tessel:
 	browserify -r ./tessel.json:tessel > static/tessel.js
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Pins for LEDlogics ONE</title>
+  
+  <style>
+    body{
+      font:500 14px/21px 'Helvetica Neue', Helvetica, Arials;
+      padding:40px;
+    }
+  </style>
+  
+</head>
+
+<body>
+
+  <h1>LEDlogics ONE</h1>
+
+  <a href="http://2.bp.blogspot.com/-_M5HsO7r1dM/UGqw8xi2zUI/AAAAAAAAR5c/O-Q5qzO1mJQ/s1600/arduino+pinout.png">board photo</a>
+
+  <svg id="main" width="1500" height="1000">
+  </svg>
+
+  <script src="./ledlogics_one.js">
+  </script>
+
+  <script src="./s.js"></script>
+  <script src="./board.js"></script>
+  <script src="./pins.js"></script>
+
+  <script>
+    var s = require('svg');
+
+    var pinData = require('ledlogics_one');
+    
+    var Board = require('board');
+    var board = new Board(s, pinData);
+    board.render();
+  
+    var Pins = require('pins');
+    var pins = new Pins(s, {board: pinData});
+    pins.render();
+  </script>
+
+</body>
+
+</html>

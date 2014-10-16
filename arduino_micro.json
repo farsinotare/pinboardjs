@@ -1,19 +1,19 @@
 {
-    "name": "Arduino NANO",
+    "name": "Arduino Mini",
     "skin": {
         "board": {
             "background": "#358287",
-            "height": 770,
+            "height": 810,
             "offset": {
                 "x": 20,
                 "y": 15
             },
             "north": {
-                "height": 70
+                "height": 60
             },
             "middle": {
-                "height": 700,
-                "outer_width": 100,
+                "height": 760,
+                "outer_width": 80,
                 "inner_width": 320
             }
         },
@@ -42,7 +42,7 @@
             "direction": "vertical",
             "position": {
               "x": 140,
-              "y": 800,
+              "y": 850,
               "spacingY": 30
             },
             "pins": [
@@ -54,15 +54,19 @@
         },
         {
             "name": "north",
-            "direction": "vertical",
+            "direction": "horizontal",
             "position": {
               "x": 150,
               "y": 30,
-              "spacingY": 40
+              "spacingX": 80
             },
             "pins": [
                 {
-                    "name": "ISCP",
+                    "name": "RESET",
+                    "type": "large"
+                },
+                {
+                    "name": "ICSP",
                     "type": "large"
                 }
             ]
@@ -81,70 +85,20 @@
             ]
         },
         {
-            "name": "west",
+            "name": "east",
             "direction": "vertical",
             "position": {
-              "x": 50,
-              "y": 105,
-              "spacingY": 43
-            },
-            "pins": [
-                {
-                    "name": "D1"
-                },
-                {
-                    "name": "D0"
-                },
-                {
-                    "name": "RESET"
-                },
-                {
-                    "name": "GND"
-                },
-                {
-                    "name": "D2"
-                },
-                {
-                    "name": "D3"
-                },
-                {
-                    "name": "D4"
-                },
-                {
-                    "name": "D5"
-                },
-                {
-                    "name": "D6"
-                },
-                {
-                    "name": "D7"
-                },
-                {
-                    "name": "D8"
-                },
-                {
-                    "name": "D9"
-                },
-                {
-                    "name": "D10"
-                },
-                {
-                    "name": "D11"
-                },
-                {
-                    "name": "D12"
-                },
-            ]
-        },
-        {
-            "name": "east",
-             "direction": "vertical",
-            "position": {
-              "x": 360,
+              "x": 350,
               "y": 105,
               "spacingY": 45
             },
             "pins": [
+                {
+                    "name": "SCK"
+                },
+                {
+                    "name": "MISO"
+                },
                 {
                     "name": "VIN"
                 },
@@ -152,16 +106,16 @@
                     "name": "GND"
                 },
                 {
-                    "name": "RESET"
+                    "name": "RST"
                 },
                 {
                     "name": "5V"
                 },
                 {
-                    "name": "A7"
+                    "name": "NC"
                 },
                 {
-                    "name": "A6"
+                    "name": "NC"
                 },
                 {
                     "name": "A5"
@@ -182,14 +136,76 @@
                     "name": "A0"
                 },
                 {
-                    "name": "AREF",
+                    "name": "REF"
                 },
                 {
-                    "name": "3V3",
+                    "name": "3V3"
                 },
                 {
-                    "name": "D13",
+                    "name": "D13"
+                }
+            ]
+        },
+        {
+            "name": "west",
+             "direction": "vertical",
+            "position": {
+              "x": 50,
+              "y": 105,
+              "spacingY": 45
+            },
+            "pins": [
+                {
+                    "name": "MOSI"
                 },
+                {
+                    "name": "SS"
+                },
+                {
+                    "name": "TX1"
+                },
+                {
+                    "name": "RX1"
+                },
+                {
+                    "name": "RESET"
+                },
+                {
+                    "name": "GND"
+                },
+                {
+                    "name": "D2/SDA"
+                },
+                {
+                    "name": "D3"
+                },
+                {
+                    "name": "D4"
+                },
+                {
+                    "name": "D5"
+                },
+                {
+                    "name": "D6"
+                },
+                {
+                    "name": "D7"
+                },
+                {
+                    "name": "D8",
+                },
+                {
+                    "name": "D9",
+                },
+                {
+                    "name": "D10",
+                },
+                {
+                    "name": "D11",
+                },
+                {
+                    "name": "D12",
+                }
             ]
         }
     ]
