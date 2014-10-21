@@ -9,6 +9,8 @@ The boards drawn by Pinboard represent the physical entity, but are less complex
 The SVG graphics can be used to lookup pin configurations or share pins in a hardware project
 
 <img src="static/arduino_uno.png" />
+<img src="static/tessel.png" />
+<img src="static/ledlogics_mono2.jpg" />
 
 ## How does it work?
 
