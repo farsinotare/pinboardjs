@@ -1,0 +1,116 @@
+{
+  "name": "dip-8",
+  "components": [
+     {"name": "package",
+      "drawings": [
+        {"type": "segment",
+          "Xstart": 140,
+          "Xend": 270,
+          "Ystart": 240,
+          "Yend": 280,
+          "color": "#cccccc",
+          "width": 0
+        }]
+     },
+     {"name": "pins-left",
+      "drawings": [
+        {"type": "segment",
+         "Xstart": 150,
+         "Xend": 160,
+         "Ystart": 230,
+         "Yend": 240,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 170,
+         "Xend": 180,
+         "Ystart": 230,
+         "Yend": 240,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 190,
+         "Xend": 200,
+         "Ystart": 230,
+         "Yend": 240,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 210,
+         "Xend": 220,
+         "Ystart": 230,
+         "Yend": 240,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 230,
+         "Xend": 240,
+         "Ystart": 230,
+         "Yend": 240,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 250,
+         "Xend": 260,
+         "Ystart": 230,
+         "Yend": 240,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 150,
+         "Xend": 160,
+         "Ystart": 280,
+         "Yend": 290,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 170,
+         "Xend": 180,
+         "Ystart": 280,
+         "Yend": 290,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 190,
+         "Xend": 200,
+         "Ystart": 280,
+         "Yend": 290,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 210,
+         "Xend": 220,
+         "Ystart": 280,
+         "Yend": 290,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 230,
+         "Xend": 240,
+         "Ystart": 280,
+         "Yend": 290,
+         "color": "#dddddd",
+         "width": 0
+        },
+        {"type": "segment",
+         "Xstart": 250,
+         "Xend": 260,
+         "Ystart": 280,
+         "Yend": 290,
+         "color": "#dddddd",
+         "width": 0
+        }
+      ]
+     }
+  ]
+}
